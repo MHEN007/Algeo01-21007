@@ -48,21 +48,24 @@ public class menu{
             System.out.println("3. Matriks balikan");
             System.out.println("4. Kaidah Cramer");
             int j;
-            Scanner in = new Scanner (System.in);
-            j = in.nextInt();
-            /* INI LOOPINGNYA MASIH SALAH TOLONG DIBENERIN */
-            while (j >= 1 || j <= 4){
+            boolean state = true;
+            while (state){
+                Scanner in = new Scanner (System.in);
+                j = in.nextInt();
                 if (j == 1){
                     // masuk metode elminasi gauss
+                    state = false;
                 }else if (j == 2){
                     //masuk metode eliminasi  gauss -jordan
+                    state = false;
                 }else if (j == 3){
                     // masuk metode matriks balikan
+                    state = false;
                 }else if (j == 4){
                     // masuk metode kaidah cramer
+                    state = false;
                 }else{
                     System.out.println("Input tidak valid! Silakan ulangi input");
-                    j = in.nextInt();
                 }
             }
         }
