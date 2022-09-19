@@ -15,11 +15,11 @@ public class InputMatriks{
         m = in.nextInt();
 
         //input n
-        System.out.print("Masukkan ukuran baris matriks (n): ");
+        System.out.print("Masukkan ukuran kolom matriks (n): ");
         n = in.nextInt();
 
         //membuat matriks ukuran m x n
-        int[][] matriks = new int[m][n]; // matriks ukuran m baris n kolom sudah terinisialisasi
+        double[][] matriks = new double[m][n]; // matriks ukuran m baris n kolom sudah terinisialisasi
 
         //prosedur memasukkan elemen ke matriks
         // memasukkan elemen harus dalam satu baris yang dipisahkan oleh satu buah spasi
