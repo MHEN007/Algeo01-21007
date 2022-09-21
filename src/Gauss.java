@@ -26,7 +26,7 @@ public class Gauss{
         int temp=1;
         for (i = 0;i < m; i++){
             for (j = 0; j < n; j++){
-                if (matriks[0][0]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
+                if (matriks[0][j]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
                     for (i = 0;i < m; i++){
                         int newLine=matriks[temp][i];
                         matriks[temp][i]=matriks[0][i];
