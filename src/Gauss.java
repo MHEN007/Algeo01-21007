@@ -21,6 +21,22 @@ public class Gauss{
         return copyMatriks;
     }
 
+    static void swapbaris(Integer[][] matriks, int m, int n){
+        int i,j;
+        int temp=1;
+        for (i = 0;i < m; i++){
+            for (j = 0; j < n; j++){
+                if (matriks[0][0]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
+                    for (i = 0;i < m; i++){
+                        int newLine=matriks[temp][i];
+                        matriks[temp][i]=matriks[0][i];
+                        matriks[0][i]=newLine; 
+                    }
+                }
+            }
+        }
+    }
+
     static void MetodeGauss(){
         // INPUT MATRIKS DULU
         Scanner in = new Scanner(System.in);
@@ -45,8 +61,7 @@ public class Gauss{
             for (j = 0; j < n; j++){
                 matriks[i][j] = in.nextInt();
             }
-        }
-
+        } 
 
         // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
@@ -69,11 +84,31 @@ public class Gauss{
                 matriks[i][j] *= rasio;
             }
         }
-
         
         // buat copy matrix
         double[][] copyMatriks = CopyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
+        
+        System.out.print("Matriks sebelum diputar:\n");
+        printMatriks(matriks, m, n);
+        System.out.print("\n");
+
+        int temp=1;
+        for (i = 0;i < m; i++){
+            for (j = 0; j < n; j++){
+                if (matriks[0][0]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
+                    for (i = 0;i < m; i++){
+                        Double newLine=matriks[temp][i];
+                        matriks[temp][i]=matriks[0][i];
+                        matriks[0][i]=newLine; 
+                    }
+                }
+            }
+        }
+
+        System.out.print("Matriks setelah diputar:\n");
+        printMatriks(matriks, m, n);
+        System.out.print("\n");
 
         // Switching posisi jika diperlukan
         // Tolong dibuat. Switching terhadap copyMatriks dan matriks
