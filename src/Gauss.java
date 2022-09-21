@@ -1,11 +1,11 @@
 import java.util. *;
 public class Gauss{
     static void MetodeGauss(){
-
         // INPUT MATRIKS DULU
         Scanner in = new Scanner(System.in);
-        int m,n,i,j,k;
+        int m,n,i,j,k,l;
         double rasio, rasio1, simpan;
+        boolean zero;
         //input m
         System.out.print("Masukkan ukuran baris matriks (m): ");
         m = in.nextInt();
@@ -14,7 +14,7 @@ public class Gauss{
         System.out.print("Masukkan ukuran kolom matriks (n): ");
         n = in.nextInt();
 
-        //membuat matriks ukuran m x n
+        //membuat matriks ukuran m x ns
         double[][] matriks = new double[m][n]; // matriks ukuran m baris n kolom sudah terinisialisasi
 
         //prosedur memasukkan elemen ke matriks
@@ -27,28 +27,64 @@ public class Gauss{
         }
 
 
-        // MULAI 
-        rasio = 1 /  matriks[0][0]; // dipikirkan untuk 1/0
-        for (i = 0; i < m ; i++){
-            for (j = 0; j < n; j++){
-                for (k = 0; k <= i; k++){
-                    if (i == 0 && k == 0){ // untuk baris pertama saja
-                        matriks[i][j] *= rasio;
-                    }else{ // baris kedua dan selanjutnya
-                        simpan = matriks[i][0];
-                        if (k == 0){
-                            matriks[i][j] = matriks[i][j] - simpan * matriks[0][j]; // matriks[0][j] musti diganti biar bisa ganti baris sampai baris skrg -1
-                        }else{
-                            if (matriks[i][i] != 0){ // harus dipikirkan kalo 1/0; solusinya musti switch sih ato ya dikorbankan :)
-                                rasio1 = 1 / matriks[i][i];
-                                matriks[i][j] *= rasio1;
-                            }
+        // MULAI MEMBUAT SATU UTAMA
+        // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
+        for (i = 0; i < m; i++){
+            j = 0;
+            simpan = 1;
+            zero = true;
+            //ambil elemen pertama pada baris yang bukan 0
+            while (j < n && zero == true){
+                if (matriks[i][j] != 0){
+                    simpan = matriks[i][j];
+                    zero = false;
+                }
+                j++;
+            }
+
+            rasio = 1 / simpan;
+
+            for (j = 0; j < n ; j++){
+                matriks[i][j] *= rasio;
+            }
+        }
+        // SATU UTAMA SUDAH TERBENTUK
+
+        // Switching posisi jika diperlukan
+        // End Switching Posisi
+
+        // MULAI MELAKUKAN ALGORITMA MATTHEW
+
+        // Bagian Pengurangan Baris
+        // Definisi algoritma seperti yg sudah dibahas oleh Kelompok
+        // Langkah 1) Bn - B(n-1); 2) Bn * 1/Elm pertama Bn yang bukan 0; n adalah baris
+        
+        // Harus diperhatikan jika sudah terbentuk satu utama, maka tidak perlu lagi melakukan
+        // pengurangan baris. Algoritma di bawah ini masih salah
+        /*
+        for (i = 1; i<m; i++){
+            for (k = 1; k <= i; k++){
+                for (j = 0; j < n ; j++){
+                    matriks[i][j] -= matriks[i-k][j];
+                    //ambil elemen pertama pada baris yang bukan 0
+                    zero = true; l= 0; simpan=1;
+                    while (l < n && zero == true){
+                        if (matriks[i][l] != 0){
+                            simpan = matriks[i][l];
+                            zero = false;
                         }
+                        l++;
                     }
+
+                    rasio = 1 / simpan;
+                    matriks[i][j] *= rasio;
                 }
             }
         }
+        */
+        // Pengurangan Baris Selesai
 
+        // ALGORITMA MATTHEW SELESAI
 
         //test cetak
         for (i = 0; i < m; i++){
