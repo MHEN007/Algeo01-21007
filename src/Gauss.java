@@ -1,5 +1,26 @@
 import java.util. *;
 public class Gauss{
+    static void printMatriks(double[][] matriks, int m, int n){
+        int i,j;
+        for (i = 0; i < m; i++){
+            for (j = 0; j < n; j++){
+                System.out.print(matriks[i][j]+" ");
+            }
+            System.out.println();
+        }
+    }
+
+    static double[][] CopyMatriks(double[][] matriks, int m, int n){
+        double[][] copyMatriks = new double[m][n];
+        int i,j;
+        for (i = 0; i < m; i++){
+            for (j = 0; j < n; j++){
+                copyMatriks[i][j] = matriks[i][j];
+            }
+        }
+        return copyMatriks;
+    }
+
     static void MetodeGauss(){
         // INPUT MATRIKS DULU
         Scanner in = new Scanner(System.in);
@@ -48,10 +69,17 @@ public class Gauss{
                 matriks[i][j] *= rasio;
             }
         }
-        // SATU UTAMA SUDAH TERBENTUK
+
+        
+        // buat copy matrix
+        double[][] copyMatriks = CopyMatriks(matriks, m,n);
+        // copy matrix sudah terdefinisi
 
         // Switching posisi jika diperlukan
+        // Tolong dibuat. Switching terhadap copyMatriks dan matriks
         // End Switching Posisi
+
+        // SATU UTAMA SUDAH TERBENTUK
 
         // MULAI MELAKUKAN ALGORITMA MATTHEW
 
@@ -59,40 +87,31 @@ public class Gauss{
         // Definisi algoritma seperti yg sudah dibahas oleh Kelompok
         // Langkah 1) Bn - B(n-1); 2) Bn * 1/Elm pertama Bn yang bukan 0; n adalah baris
         
-        // Harus diperhatikan jika sudah terbentuk satu utama, maka tidak perlu lagi melakukan
-        // pengurangan baris. Algoritma di bawah ini masih salah
-        /*
-        for (i = 1; i<m; i++){
-            for (k = 1; k <= i; k++){
+        for (i = 1; i < m; i++){ // ulang untuk per baris
+            for (k = 0; k < i; k++){ // ulang untuk k- kali
+                simpan = 1;
+                zero = true;
                 for (j = 0; j < n ; j++){
-                    matriks[i][j] -= matriks[i-k][j];
-                    //ambil elemen pertama pada baris yang bukan 0
-                    zero = true; l= 0; simpan=1;
-                    while (l < n && zero == true){
-                        if (matriks[i][l] != 0){
-                            simpan = matriks[i][l];
-                            zero = false;
-                        }
-                        l++;
+                    matriks[i][j] -= copyMatriks[k][j]; // 1)
+
+                    if (matriks[i][j] != 0 && zero == true){
+                        simpan = matriks[i][j];
+                        zero = false;
                     }
 
-                    rasio = 1 / simpan;
-                    matriks[i][j] *= rasio;
+                    matriks[i][j] *= 1 / simpan;
+
+                    copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
                 }
             }
         }
-        */
+        
         // Pengurangan Baris Selesai
 
         // ALGORITMA MATTHEW SELESAI
 
         //test cetak
-        for (i = 0; i < m; i++){
-            for (j = 0; j < n; j++){
-                System.out.print(matriks[i][j]+" ");
-            }
-            System.out.println();
-        }
+        printMatriks(matriks, m, n);
     }
 
     public static void main(String[] args){
