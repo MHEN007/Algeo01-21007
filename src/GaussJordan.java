@@ -28,10 +28,10 @@ public class GaussJordan{
         // disini harus ada proses eliminasi gauss terlebih dahulu
         // return berupa matriksGauss tipe double
         //double matriksGauss[][] = {{1,-0.3333333,0.3333333},{0,1,-0.14285714},{0,0,1}}; // contoh dari matriks hasil transformasi gauss
-        double matriksGauss[][] = {{1, 2.65, 0.6},{0,1,-0.054},{0,0,1}};
-        double copyMatriks[][] = CopyMatriks(matriksGauss,3,3);
-        printMatriks(matriksGauss,3,3);
-        int i,j,k;
+        double matriksGauss[][] = {{1,1.6666666666666665,2.0,1.6666666666666665},{0,1,1.75,0.5},{0,0,1,0.281967213114754}};
+        double copyMatriks[][] = CopyMatriks(matriksGauss,3,4);
+        printMatriks(matriksGauss,3,4);
+        int i,j,k,l;
         double simpan;
         boolean one;
         /*
@@ -41,19 +41,20 @@ public class GaussJordan{
         for (i = 1; i<3; i++){
             simpan = 1;
             one = true;
-            for (j = 0; j < 3; j++){
+            for (j = 0; j < 4; j++){
                 // ambil elemen pertama yang sudah pasti 1 pada tiap baris
                 if (matriksGauss[i][j] == 1 && one == true){
                     for (k = 1; k <= i; k++){
                         simpan = matriksGauss[i-k][j]; // ambil elemen atasnya
-
                         one = false;
-
-                        matriksGauss[i-k][j] -= simpan * matriksGauss[i][j];
+                        // harus loop di kolomnya
+                        for (l = 0; l<4; l++){
+                            matriksGauss[i-k][l] -= simpan * matriksGauss[i][l];
+                        }
                     }
                 }
             }
         }
-        printMatriks(matriksGauss,3,3);
+        printMatriks(matriksGauss,3,4);
     }
 }
