@@ -29,32 +29,31 @@ public class GaussJordan{
         // return berupa matriksGauss tipe double
         //double matriksGauss[][] = {{1,-0.3333333,0.3333333},{0,1,-0.14285714},{0,0,1}}; // contoh dari matriks hasil transformasi gauss
         double matriksGauss[][] = {{1,1.6666666666666665,2.0,1.6666666666666665},{0,1,1.75,0.5},{0,0,1,0.281967213114754}};
-        double copyMatriks[][] = CopyMatriks(matriksGauss,3,4);
-        printMatriks(matriksGauss,3,4);
+        int m = matriksGauss.length; // baris
+        int n = matriksGauss[0].length; // kolom
+        double copyMatriks[][] = CopyMatriks(matriksGauss,m,n);
+        printMatriks(matriksGauss,m,n);
         int i,j,k,l;
         double simpan;
         boolean one;
-        /*
-        Algoritma di bawah ini mengecek elemen TEPAT di atas bilangan 1 mulai dari baris 2. Lalu dilakukan pengurangan
-        Algoritma masih salah. Belum sempurna.
-        */
-        for (i = 1; i<3; i++){
+
+        for (i = 1; i<m; i++){
             simpan = 1;
             one = true;
-            for (j = 0; j < 4; j++){
+            for (j = 0; j < n; j++){
                 // ambil elemen pertama yang sudah pasti 1 pada tiap baris
                 if (matriksGauss[i][j] == 1 && one == true){
                     for (k = 1; k <= i; k++){
                         simpan = matriksGauss[i-k][j]; // ambil elemen atasnya
                         one = false;
                         // harus loop di kolomnya
-                        for (l = 0; l<4; l++){
+                        for (l = 0; l<n; l++){
                             matriksGauss[i-k][l] -= simpan * matriksGauss[i][l];
                         }
                     }
                 }
             }
         }
-        printMatriks(matriksGauss,3,4);
+        printMatriks(matriksGauss,m,n);
     }
 }

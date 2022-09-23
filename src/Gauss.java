@@ -21,14 +21,14 @@ public class Gauss{
         return copyMatriks;
     }
 
-    static void swapbaris(Integer[][] matriks, int m, int n){
+    static void swapbaris(double[][] matriks, int m, int n){
         int i,j;
         int temp=1;
         for (i = 0;i < m; i++){
             for (j = 0; j < n; j++){
                 if (matriks[0][j]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
                     for (i = 0;i < m; i++){
-                        int newLine=matriks[temp][i];
+                        double newLine=matriks[temp][i];
                         matriks[temp][i]=matriks[0][i];
                         matriks[0][i]=newLine; 
                     }
@@ -37,20 +37,10 @@ public class Gauss{
         }
     }
 
-    static void MetodeGauss(){
-        // INPUT MATRIKS DULU
+    static double[][] inputMatriks(int m,int n){
         Scanner in = new Scanner(System.in);
-        int m,n,i,j,k,l;
-        double rasio, rasio1, simpan;
-        boolean zero;
-        //input m
-        System.out.print("Masukkan ukuran baris matriks (m): ");
-        m = in.nextInt();
-
-        //input n
-        System.out.print("Masukkan ukuran kolom matriks (n): ");
-        n = in.nextInt();
-
+        int i,j;
+    
         //membuat matriks ukuran m x ns
         double[][] matriks = new double[m][n]; // matriks ukuran m baris n kolom sudah terinisialisasi
 
@@ -62,6 +52,26 @@ public class Gauss{
                 matriks[i][j] = in.nextInt();
             }
         } 
+
+        return (matriks);
+    }
+
+    static void MetodeGauss(){
+        Scanner in = new Scanner(System.in);
+        int m,n,i,j,k,l;
+        double rasio, rasio1, simpan;
+        boolean zero;
+
+        // INPUT MATRIKS DULU
+        //input m
+        System.out.print("Masukkan ukuran baris matriks (m): ");
+        m = in.nextInt();
+
+        //input n
+        System.out.print("Masukkan ukuran kolom matriks (n): ");
+        n = in.nextInt();
+        
+        double matriks[][] = inputMatriks(m,n);
 
         // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
@@ -88,30 +98,15 @@ public class Gauss{
         // buat copy matrix
         double[][] copyMatriks = CopyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
-        
-        System.out.print("Matriks sebelum diputar:\n");
-        printMatriks(matriks, m, n);
-        System.out.print("\n");
-
-        int temp=1;
-        for (i = 0;i < m; i++){
-            for (j = 0; j < n; j++){
-                if (matriks[0][0]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
-                    for (i = 0;i < m; i++){
-                        Double newLine=matriks[temp][i];
-                        matriks[temp][i]=matriks[0][i];
-                        matriks[0][i]=newLine; 
-                    }
-                }
-            }
-        }
-
-        System.out.print("Matriks setelah diputar:\n");
-        printMatriks(matriks, m, n);
-        System.out.print("\n");
 
         // Switching posisi jika diperlukan
         // Tolong dibuat. Switching terhadap copyMatriks dan matriks
+        swapbaris(matriks, m,n);
+
+        System.out.print("Matriks setelah diswitch:\n");
+        printMatriks(matriks, m, n);
+        System.out.print("\n");
+
         // End Switching Posisi
 
         // SATU UTAMA SUDAH TERBENTUK

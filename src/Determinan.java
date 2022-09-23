@@ -11,6 +11,25 @@ public class Determinan{
         }
     }
 
+    static double[][] inputMatriks(int m,int n){
+        Scanner in = new Scanner(System.in);
+        int i,j;
+    
+        //membuat matriks ukuran m x ns
+        double[][] matriks = new double[m][n]; // matriks ukuran m baris n kolom sudah terinisialisasi
+
+        //prosedur memasukkan elemen ke matriks
+        // memasukkan elemen harus dalam satu baris yang dipisahkan oleh satu buah spasi
+        // contoh : 1 2 3
+        for (i = 0; i < m; i++){
+            for (j = 0; j < n; j++){
+                matriks[i][j] = in.nextInt();
+            }
+        } 
+
+        return (matriks);
+    }
+
     static double[][] CopyMatriks(double[][] matriks, int m, int n){
         double[][] copyMatriks = new double[m][n];
         int i,j;
@@ -22,14 +41,14 @@ public class Determinan{
         return copyMatriks;
     }
 
-    static void swapbaris(Integer[][] matriks, int m, int n){
+    static void swapbaris(double[][] matriks, int m, int n){
         int i,j;
         int temp=1;
         for (i = 0;i < m; i++){
             for (j = 0; j < n; j++){
                 if (matriks[0][j]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
                     for (i = 0;i < m; i++){
-                        int newLine=matriks[temp][i];
+                        double newLine=matriks[temp][i];
                         matriks[temp][i]=matriks[0][i];
                         matriks[0][i]=newLine; 
                     }
@@ -47,6 +66,7 @@ public class Determinan{
         double pembilang = 1;
         double penyebut = 1;
         int p = 0; //jumlah switch yang terjadi
+        
         //input m
         System.out.print("Masukkan ukuran baris matriks (m): ");
         m = in.nextInt();
@@ -55,17 +75,7 @@ public class Determinan{
         System.out.print("Masukkan ukuran kolom matriks (n): ");
         n = in.nextInt();
 
-        //membuat matriks ukuran m x ns
-        double[][] matriks = new double[m][n]; // matriks ukuran m baris n kolom sudah terinisialisasi
-
-        //prosedur memasukkan elemen ke matriks
-        // memasukkan elemen harus dalam satu baris yang dipisahkan oleh satu buah spasi
-        // contoh : 1 2 3
-        for (i = 0; i < m; i++){
-            for (j = 0; j < n; j++){
-                matriks[i][j] = in.nextInt();
-            }
-        } 
+        double matriks[][] = inputMatriks(m,n);
 
         // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
@@ -93,31 +103,10 @@ public class Determinan{
         // buat copy matrix
         double[][] copyMatriks = CopyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
-        
-        System.out.print("Matriks sebelum diputar:\n");
-        printMatriks(matriks, m, n);
-        System.out.print("\n");
-
-        int temp=1;
-        for (i = 0;i < m; i++){
-            for (j = 0; j < n; j++){
-                if (matriks[0][0]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
-                    for (i = 0;i < m; i++){
-                        Double newLine=matriks[temp][i];
-                        matriks[temp][i]=matriks[0][i];
-                        matriks[0][i]=newLine; 
-                        p += 1;
-                    }
-                }
-            }
-        }
-
-        System.out.print("Matriks setelah diputar:\n");
-        printMatriks(matriks, m, n);
-        System.out.print("\n");
 
         // Switching posisi jika diperlukan
         // Tolong dibuat. Switching terhadap copyMatriks dan matriks
+        swapbaris(matriks,m,n);
         // End Switching Posisi
 
         // SATU UTAMA SUDAH TERBENTUK
@@ -151,9 +140,6 @@ public class Determinan{
         // Pengurangan Baris Selesai
 
         // ALGORITMA MATTHEW SELESAI
-
-        //test cetak
-        printMatriks(matriks, m, n);
 
         for (i = 0; i < m; i++){
             for (j = 0; j < n; j++){
