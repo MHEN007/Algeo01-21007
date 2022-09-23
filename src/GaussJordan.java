@@ -25,7 +25,10 @@ public class GaussJordan{
     }
 
     public static void main(String[] args){
-        double matriksGauss[][] = {{1,-0.3333333,0.3333333},{0,1,-0.14285714},{0,0,1}}; // contoh dari matriks hasil transformasi gauss
+        // disini harus ada proses eliminasi gauss terlebih dahulu
+        // return berupa matriksGauss tipe double
+        //double matriksGauss[][] = {{1,-0.3333333,0.3333333},{0,1,-0.14285714},{0,0,1}}; // contoh dari matriks hasil transformasi gauss
+        double matriksGauss[][] = {{1, 2.65, 0.6},{0,1,-0.054},{0,0,1}};
         double copyMatriks[][] = CopyMatriks(matriksGauss,3,3);
         printMatriks(matriksGauss,3,3);
         int i,j,k;
@@ -41,11 +44,14 @@ public class GaussJordan{
             for (j = 0; j < 3; j++){
                 // ambil elemen pertama yang sudah pasti 1 pada tiap baris
                 if (matriksGauss[i][j] == 1 && one == true){
-                    simpan = matriksGauss[i-1][j]; // ambil elemen atasnya
+                    for (k = 1; k <= i; k++){
+                        simpan = matriksGauss[i-k][j]; // ambil elemen atasnya
 
-                    one = false;
+                        one = false;
+
+                        matriksGauss[i-k][j] -= simpan * matriksGauss[i][j];
+                    }
                 }
-                matriksGauss[i-1][j] -= simpan * matriksGauss[i][j];
             }
         }
         printMatriks(matriksGauss,3,3);
