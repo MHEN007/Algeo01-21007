@@ -1,4 +1,4 @@
-class SarrusCrammer(){
+class SarrusCrammer{
     /* MEMANFAATKAN DETERMINAN UNTUK MENENTUKAN HASIL */
     public static void main(String[] args){
         /* Proses Input */
