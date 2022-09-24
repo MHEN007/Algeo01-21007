@@ -201,7 +201,7 @@ class Matriks{
     }
 
     double Determinan(double[][] matriks, int m, int n){
-        // mencari determinan dengan menggunakan eliminasi gauss
+        // mencari determinan dengan menggunakan reduksi baris
         /* KAMUS LOKAL */
         int i,j,k,l;
         double rasio, rasio1, simpan;
@@ -291,9 +291,38 @@ class Matriks{
         sebuah SPL */
 
         /* KAMUS LOKAL */
-
+        double[][] copy = copyMatriks(matriks,m,n);
+        double[][] matA = copyMatriks(matriks, m, n-1); // ukuran barisnya selalu kurang dari 1
+        double[][] matB = copyMatriks(matriks, m, 1); // hanya m baris x 1 kolom. diisi elemen paling ujung
+        double det; // determinan dasar
+        double detx; // determinan berikutnya
 
 
         /* ALGORITMA */
+        //hitung determinan awalnya
+        det = Determinan(copy,m,n);
+
+        //isi matriks A
+        for(int i = 0; i < m; i++){
+            for (int j = 0; j < n-1; j++){
+                matA[i][j] = matriks[i][j];
+            }
+        }
+
+        //isi matriks B
+        for(i = 0; i < m; i++){
+            matB[i][0] = matriks[i][n-1];
+        }
+        
+        //proses tukar tempat dan cari nilai x1..xN
+        //dilakukan dalam suatu loop selama N kali dengan N maks adalah jumlah baris-1
+        for (i = 0; i < n-1; i++){
+            for (j = 0; j < m; j++){
+                matA[j][i] = matB[j][0]; // menukar kolom ke N dengan matriks B
+            }
+            detx = Determinan(matA, matA.length, matA[0].length); // menghitung determinan dari matriks A
+            System.out.println("Nilai x"+(i+1)+" adalah "+(detx/det));
+            matA = copyMatriks(matriks, m, n-1); // mengembalikan matriks A ke awal
+        }
     }
 }
