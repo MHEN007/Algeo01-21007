@@ -325,4 +325,38 @@ class Matriks{
             matA = copyMatriks(matriks, m, n-1); // mengembalikan matriks A ke awal
         }
     }
+
+    double DeterminanKof(double[][] matrix,int m,int n){
+        //menghitung determinan dengan melakukan ekspansi kofaktor
+        // melakukan rekursi
+        /* KAMUS LOKAL */
+        int sign = 1;
+        double det = 0;
+        if (m == 1 && n ==1){ // basis rekursi
+            return (matrix[0][0]);
+        }else{
+            for (int i = 0; i < m; i++){
+                double[][] kofaktor = new double[m-1][n-1];
+                int row1,col1;
+                int k,l;
+                row1 = 0;
+                for (k = 0; k < m; k++){
+                    col1 = 0;
+                    for (l = 0; l < n; l++){
+                        if (l != i && k != 0){
+                            kofaktor[row1][col1] = matrix[k][l];
+                            col1 += 1;
+                            if (col1 == n-1){
+                                col1 = 0;
+                                row1 += 1;
+                            }
+                        }
+                    }
+                }
+                det += (sign * matrix[0][i] * DeterminanKof(kofaktor,kofaktor.length,kofaktor[0].length));
+                sign *= -1;
+            }
+        }
+        return det;
+    }
 }
