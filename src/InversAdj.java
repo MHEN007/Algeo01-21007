@@ -1,6 +1,6 @@
 
 
-class Invers{
+class InversAdj{
     public static void main(String[] args){
         Matriks matriks = new Matriks();
 
@@ -46,6 +46,8 @@ class Invers{
             //mengalikan indeks [0][1] dan [1][0] dengan -1
             copymatriks[0][1] *= -1;
             copymatriks[1][0] *= -1;
+
+            matriks.printMatriks(copymatriks,m,n);
 
         }
 
