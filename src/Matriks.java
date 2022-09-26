@@ -294,14 +294,34 @@ class Matriks{
             }
         }
 
+        // Swap Baris
+        int var = 0; 
+        int jumlahBaris = matriks.length; //menghitung panjang baris matriks
+        int jumlahKolom = matriks[0].length; //menghitung panjang kolom matriks
+
+        for(k = 0; k < jumlahBaris; k++){
+            if (jumlahBaris <= var){  //panjang baris kurang dari 0
+                break;
+            }
+            i = k;
+            while(matriks[i][var] == 0){ //kondisi pengecekan kolom apakah ada 0 atau tidak
+                i++;
+                if(jumlahBaris == i){ 
+                    i = k;
+                    var++;
+                    if(jumlahKolom == var){ //ketika jumlah kolom semua sudah dicek
+                        break;
+                    }
+                }
+
+            }
+            matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
+            p++;
+        }
+
         // buat copy matrix
         double[][] copyMatriks = copyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
-
-        // Switching posisi jika diperlukan
-        // Tolong dibuat. Switching terhadap copyMatriks dan matriks
-        swapBaris(matriks,m,n);
-        // End Switching Posisi
 
         // SATU UTAMA SUDAH TERBENTUK
 
