@@ -43,7 +43,7 @@ class Matriks{
         Scanner in = new Scanner (System.in); 
         for (int i = 0; i < m; i++){
             for (int j = 0; j < n; j++){
-                matriks[i][j] = in.nextInt();
+                matriks[i][j] = in.nextDouble();
             }
         }
     }
@@ -115,6 +115,26 @@ class Matriks{
         this.matriks = matriks;
         return matriks;
         
+    }
+
+    double[][] makeMinor (double[][] matriks, int m, int n, int b, int k){
+        // menerima input matriks dan mengeluarkan minor dari baris m dan kolom n
+        double[][] kof = new double[m-1][n-1]; // membuat matriks kofaktor
+        int bkof = 0; // baris dari matriks kofaktor
+        for (int i = 0; i < m; i++){
+            int kkof = 0; // kolom dari matriks kofaktor
+            for (int j = 0; j < n; j++){
+                if (i != b && j != k){
+                    kof[bkof][kkof] = matriks[i][j];
+                    kkof++;
+                    if(kkof == n-1){
+                        kkof = 0;
+                        bkof++;
+                    }
+                }
+            }
+        }
+        return kof;
     }
 
     void Gauss(double[][] matriks, int m, int n){
@@ -316,7 +336,7 @@ class Matriks{
 
             }
             matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
-            p++;
+            //p++;
         }
 
         // buat copy matrix
@@ -438,5 +458,35 @@ class Matriks{
             }
         }
         return det;
+    }
+    
+    double[][] InversAdj (double[][] matrix, int m, int n){
+        int i,j;
+        double[][] copy = copyMatriks(matrix,m,n);
+        double[][] kof = makeMatrix(m,n);
+
+        double det = Determinan(copy, m,n);
+
+        for (i = 0; i < m; i++){
+            for (j = 0; j < n ; j++){
+                double[][] minor = makeMinor(matrix,m,n,i,j);
+                kof[i][j] = Math.pow(-1,i+j+2) * Determinan(minor, minor.length, minor[0].length);
+            }
+        }
+
+        //matriks.printMatriks(kof,kof.length,kof[0].length);
+
+        // transpose
+
+        double[][] trans = copyMatriks(kof,kof.length,kof[0].length);
+
+        for (i = 0; i<m; i++){
+            for (j = 0; j < n; j++){
+                trans[i][j] = Math.round((1/det)*kof[j][i]);
+            }
+        }
+        printMatriks(trans,m,n);
+
+        return trans;
     }
 }
