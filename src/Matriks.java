@@ -94,7 +94,7 @@ class Matriks{
                     if (identitas[i][j] != 1){
                         isIdentitas = false;
                     }
-                }else(i != j){
+                }else{
                     if (identitas[i][j] != 0){
                         isIdentitas = false;
                     }
