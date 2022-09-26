@@ -71,6 +71,39 @@ class Matriks{
     }
 
     /* OPERASI-OPERASI MATRIKS */
+    double[][] makeIdentitas (int m, int n){
+        // membuat matriks identitas dg ukuran m x n
+        double[][] identitas = makeMatrix(m,n);
+        for (int i = 0 ; i < m; i++){
+            for (int j = 0; j < n; j++){
+                if ( i == j){
+                    identitas[i][j] = 1;
+                }else{
+                    identitas[i][j] = 0;
+                }
+            }
+        }
+        return identitas;
+    }
+
+    boolean checkIdentitas(double[][] identitas, int m, int n){
+        boolean isIdentitas = true;
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n ; j++){
+                if (i == j){
+                    if (identitas[i][j] != 1){
+                        isIdentitas = false;
+                    }
+                }else(i != j){
+                    if (identitas[i][j] != 0){
+                        isIdentitas = false;
+                    }
+                }
+            }
+        }
+        return isIdentitas;
+    }
+
     double[][] swapBaris(double[][] matriks, int i, int j){ // fungsi swap baris
         double temp;
         int numColumns = matriks[0].length;
@@ -114,10 +147,6 @@ class Matriks{
             }
         }
 
-        // buat copy matrix
-        double[][] copyMatriks = copyMatriks(matriks, m,n);
-        // copy matrix sudah terdefinisi
-
         // Swap Baris
         int var = 0; 
         int jumlahBaris = matriks.length; //menghitung panjang baris matriks
@@ -142,6 +171,10 @@ class Matriks{
             matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
         }
 
+        // buat copy matrix
+        double[][] copyMatriks = copyMatriks(matriks, m,n);
+        // copy matrix sudah terdefinisi
+        
         System.out.print("Matriks setelah diswitch:\n");
         printMatriks(matriks, m, n);
         System.out.print("\n");
@@ -155,22 +188,37 @@ class Matriks{
         // Langkah 1) Bn - B(n-1); 2) Bn * 1/Elm pertama Bn yang bukan 0; n adalah baris
         
         for (i = 1; i < m; i++){ // ulang untuk per baris
-            for (k = 0; k < i; k++){ // ulang untuk k- kali
-                simpan = 1;
-                zero = true;
-                for (j = 0; j < n ; j++){
-                    matriks[i][j] -= copyMatriks[k][j]; // 1)
+            // jika baris sudah memenuhi syarat utama maka tidak perlu melakukan OBE
+            int countSatuUtama = 0;
+            j = 0;
+            while(j <= i-1){
+                if (matriks[i][j] == 0){
+                    countSatuUtama++;
+                }
+                j++;
+            }
 
-                    if (matriks[i][j] != 0 && zero == true){
-                        simpan = matriks[i][j];
-                        zero = false;
+            if(countSatuUtama <= i-1){ // belum satu utama lakukan OBE
+                for (k = 0; k < i; k++){ // ulang untuk k- kali
+                    simpan = 1;
+                    zero = true;
+                    for (j = 0; j < n ; j++){
+                        if (matriks[i][j] != 0){
+                            matriks[i][j] -= copyMatriks[k][j]; // 1)
+
+                            if (matriks[i][j] != 0 && zero == true){
+                                simpan = matriks[i][j];
+                                zero = false;
+                            }
+
+                            matriks[i][j] *= 1 / simpan;
+
+                            copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
+                        }
                     }
-
-                    matriks[i][j] *= 1 / simpan;
-
-                    copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
                 }
             }
+            
         }
         
         // Pengurangan Baris Selesai
