@@ -48,6 +48,22 @@ class Matriks{
         }
     }
     
+    /* SELEKTOR */
+    int getRow(double[][] matriks){
+        // ambil baris
+        return (matriks.length);
+    }
+
+    int getCol(double[][] matriks){
+        // ambil kolom
+        return (matriks[0].length);
+    }
+    
+    boolean isSquare (double[][] matriks){ 
+        //menentukan apakah sebuah matriks memiliki row dan col yang sama atau tidak
+        return (getRow(matriks) == getCol(matriks));
+    }
+
     /* PRIMITIF OUTPUT MATRIKS */
 
     void printMatriks(double[][] matriks, int m, int n){ // mencetak matriks matriks
@@ -117,8 +133,24 @@ class Matriks{
         
     }
 
+    double[][] perkalian(double[][] matA, double[][] matB){
+        // melakukan perkalian matriks
+        double[][] hasil = makeMatrix(matA.length, matB[0].length);
+
+        for (int i = 0; i < matA.length; i++){
+            for (int j = 0; j < matB[0].length; j++){
+                hasil[i][j] = 0;
+                for (int k = 0; k < matB.length; k++){
+                    hasil[i][j] += matA[i][k] * matB[k][j];
+                }
+            }
+        }
+
+        return hasil;
+    }
+
     double[][] makeMinor (double[][] matriks, int m, int n, int b, int k){
-        // menerima input matriks dan mengeluarkan minor dari baris m dan kolom n
+        // menerima input matriks dan mengeluarkan minor dari indeks baris b dan kolom k
         double[][] kof = new double[m-1][n-1]; // membuat matriks kofaktor
         int bkof = 0; // baris dari matriks kofaktor
         for (int i = 0; i < m; i++){
@@ -136,6 +168,8 @@ class Matriks{
         }
         return kof;
     }
+
+    /* SISTEM PERSAMAAN LINEAR */
 
     void Gauss(double[][] matriks, int m, int n){
         // Melakukan elminasi Gauss pada matriks inputan
@@ -280,6 +314,33 @@ class Matriks{
         this.matriks = matriks;
     }
 
+    double[][] SPLInvers(double[][] matriks, int m, int n){
+        double[][] matA = copyMatriks(matriks, m, n-1);
+        double[][] matB = copyMatriks(matriks, m, 1);
+
+        //isi matriks A
+        for(int i = 0; i < m; i++){
+            for (int j = 0; j < n-1; j++){
+                matA[i][j] = matriks[i][j];
+            }
+        }
+
+        //isi matriks B
+        for(i = 0; i < m; i++){
+            matB[i][0] = matriks[i][n-1];
+        }
+
+        // buat invers matA
+        double[][] invMatA = InversAdj(matA,getRow(matA),getCol(matA));
+
+        // hasil nya
+
+        double[][] x = perkalian(invMatA, matB);
+        printMatriks(x,getRow(x),getCol(x));
+
+        return x;
+    }
+
     double Determinan(double[][] matriks, int m, int n){
         // mencari determinan dengan menggunakan reduksi baris
         /* KAMUS LOKAL */
@@ -420,7 +481,7 @@ class Matriks{
             for (j = 0; j < m; j++){
                 matA[j][i] = matB[j][0]; // menukar kolom ke N dengan matriks B
             }
-            detx = Determinan(matA, matA.length, matA[0].length); // menghitung determinan dari matriks A
+            detx = Determinan(matA, getRow(matA), getCol(matA)); // menghitung determinan dari matriks A
             System.out.println("Nilai x"+(i+1)+" adalah "+(detx/det));
             matA = copyMatriks(matriks, m, n-1); // mengembalikan matriks A ke awal
         }
@@ -470,7 +531,7 @@ class Matriks{
         for (i = 0; i < m; i++){
             for (j = 0; j < n ; j++){
                 double[][] minor = makeMinor(matrix,m,n,i,j);
-                kof[i][j] = Math.pow(-1,i+j+2) * Determinan(minor, minor.length, minor[0].length);
+                kof[i][j] = Math.pow(-1,i+j+2) * Determinan(minor, getRow(minor), getCol(minor));
             }
         }
 
@@ -478,14 +539,13 @@ class Matriks{
 
         // transpose
 
-        double[][] trans = copyMatriks(kof,kof.length,kof[0].length);
+        double[][] trans = copyMatriks(kof,getRow(kof),getCol(kof));
 
         for (i = 0; i<m; i++){
             for (j = 0; j < n; j++){
                 trans[i][j] = Math.round((1/det)*kof[j][i]);
             }
         }
-        printMatriks(trans,m,n);
 
         return trans;
     }
