@@ -71,23 +71,17 @@ class Matriks{
     }
 
     /* OPERASI-OPERASI MATRIKS */
-    void swapbaris(double[][] matriks, int m, int n){ // fungsi swap baris
-        int i,j;
-        int temp = 1;
-        int p = 0;
-        for (i = 0; i < m; i++){
-            for (j = 0; j < n; j++){
-                if (matriks[0][j]==0){  /* mengecek apakah angka 0 ada dalam baris sebelah kiri*/
-                    for (i = 0;i < m; i++){
-                        double newLine=matriks[temp][i];
-                        matriks[temp][i]=matriks[0][i];
-                        matriks[0][i]=newLine;
-                        p += 1; // jumlah tukar baris bertambah
-                    }
-                }
-            }
+    double[][] swapBaris(double[][] matriks, int i, int j){ // fungsi swap baris
+        double temp;
+        int numColumns = matriks[0].length;
+        for (int k = 0; k < numColumns; k++){
+            temp = matriks[i][k];
+            matriks[i][k] = matriks[j][k];
+            matriks[j][k] = temp;
         }
         this.matriks = matriks;
+        return matriks;
+        
     }
 
     void Gauss(double[][] matriks, int m, int n){
@@ -125,15 +119,33 @@ class Matriks{
         // copy matrix sudah terdefinisi
 
         // Swap Baris
-        swapbaris(matriks,m,n);
+        int var = 0; 
+        int jumlahBaris = matriks.length; //menghitung panjang baris matriks
+        int jumlahKolom = matriks[0].length; //menghitung panjang kolom matriks
 
-        /* TESTING: Tolong nanti begitu udah beres prosedur swapbaris langsung diapus */
+        for(k = 0; k < jumlahBaris; k++){
+            if (jumlahBaris <= var){  //panjang baris kurang dari 0
+                break;
+            }
+            i = k;
+            while(matriks[i][var] == 0){ //kondisi pengecekan kolom apakah ada 0 atau tidak
+                i++;
+                if(jumlahBaris == i){ 
+                    i = k;
+                    var++;
+                    if(jumlahKolom == var){ //ketika jumlah kolom semua sudah dicek
+                        break;
+                    }
+                }
+
+            }
+            matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
+        }
+
         System.out.print("Matriks setelah diswitch:\n");
         printMatriks(matriks, m, n);
         System.out.print("\n");
-        /* TESTING */
 
-        // End Switching Posisi
         // SATU UTAMA SUDAH TERBENTUK
 
         // MULAI MELAKUKAN ALGORITMA MATTHEW
@@ -240,7 +252,7 @@ class Matriks{
 
         // Switching posisi jika diperlukan
         // Tolong dibuat. Switching terhadap copyMatriks dan matriks
-        swapbaris(matriks,m,n);
+        swapBaris(matriks,m,n);
         // End Switching Posisi
 
         // SATU UTAMA SUDAH TERBENTUK
