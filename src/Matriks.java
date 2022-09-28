@@ -163,7 +163,7 @@ class Matriks{
             swapBaris(i, rowMax);
             }
         }
-        System.out.print("Berapa kali switch? "+p+"\n");
+        //System.out.print("Berapa kali switch? "+p+"\n");
         return p;
     }
 
@@ -209,13 +209,12 @@ class Matriks{
         // Melakukan elminasi Gauss pada matriks inputan
         /* KAMUS LOKAL */
         int i,j,k,l;
-        double rasio, rasio1, simpan;
+        double rasio,simpan;
         boolean zero;
 
         sortingMatrix();
 
         /* ALGORITMA */
-        // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
         for (i = 0; i < m; i++){
             j = 0;
@@ -236,58 +235,34 @@ class Matriks{
                 matriks[i][j] *= rasio;
             }
         }
-        printMatriks(matriks, getRow(matriks), getCol(matriks));
+        // printMatriks(matriks, getRow(matriks), getCol(matriks));
 
         // buat copy matrix
-        double[][] copyMatriks = copyMatriks(matriks, m,n);
+        //double[][] copyMatriks = copyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
 
-        // SATU UTAMA SUDAH TERBENTUK
-
-        // MULAI MELAKUKAN ALGORITMA MATTHEW
-
-        // Bagian Pengurangan Baris
-        // Definisi algoritma seperti yg sudah dibahas oleh Kelompok
-        // Langkah 1) Bn - B(n-1); 2) Bn * 1/Elm pertama Bn yang bukan 0; n adalah baris
-        
         for (i = 1; i < m; i++){ // ulang untuk per baris
-            // jika baris sudah memenuhi syarat utama maka tidak perlu melakukan OBE
-            int countSatuUtama = 0;
-            j = 0;
-            while(j <= i-1){
-                if (matriks[i][j] == 0){
-                    countSatuUtama++;
-                }
-                j++;
-            }
-
-            if(countSatuUtama <= i-1){ // belum satu utama lakukan OBE
-                for (k = 0; k < i; k++){ // ulang untuk k- kali
-                    simpan = 1;
-                    zero = true;
-                    for (j = 0; j < n ; j++){
-                        if (matriks[i][j] != 0){
-                            matriks[i][j] -= copyMatriks[k][j]; // 1)
-
-                            if (matriks[i][j] != 0 && zero == true){
-                                simpan = matriks[i][j];
-                                zero = false;
-                            }
-
-                            matriks[i][j] *= 1 / simpan;
-
-                            copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
-                        }else{
-                            k++;
-                        }
+            for (k = 0; k < i; k++){ // ulang untuk k- kali
+                rasio = 0;
+                zero = true;
+                for (j = 0; j < n ; j++){
+                    if (matriks[k][j] != 0 && zero == true){
+                        rasio = matriks[i][j]/matriks[k][j];
+                        zero = false;
                     }
-                    sortingMatrix();
+                    matriks[i][j] -= rasio * matriks[k][j]; // 1)
+
+                    // if (matriks[i][j] != 0 && zero == true){
+                    //     simpan = matriks[i][j];
+                    //     zero = false;
+                    // }
+
+                    //matriks[i][j] *= 1 / simpan;
+
+                    //copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
                 }
             }
-            
         }
-        
-        // Pengurangan Baris Selesai
 
         // ALGORITMA MATTHEW SELESAI
         this.matriks = matriks;
@@ -298,12 +273,33 @@ class Matriks{
 
         /* KAMUS LOKAL */
         int i,j,k,l;
-        double simpan;
+        double simpan, rasio;
         boolean one;
 
         /* ALGORITMA */
         //Melalui eliminasi gauss terlebih dahulu
         Gauss(matriks,m,n);
+
+        // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
+        for (i = 0; i < m; i++){
+            j = 0;
+            simpan = 1;
+            boolean zero = true;
+            //ambil elemen pertama pada baris yang bukan 0
+            while (j < n && zero == true){
+                if (matriks[i][j] != 0){
+                    simpan = matriks[i][j];
+                    zero = false;
+                }
+                j++;
+            }
+
+            rasio = 1 / simpan;
+
+            for (j = 0; j < n ; j++){
+                matriks[i][j] *= rasio;
+            }
+        }
         
         //Mulai eliminasi Gauss-Jordan
         for (i = 1; i < m; i++){
@@ -362,12 +358,10 @@ class Matriks{
         int det = 1;
         double pembilang = 1;
         double penyebut = 1;
-        //int p = 0; //jumlah switch yang terjadi
         
         int p = sortingMatrix();
         
         /* ALGORITMA */
-        // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
         for (i = 0; i < m; i++){
             j = 0;
@@ -390,75 +384,33 @@ class Matriks{
             }
         }
 
-        // Swap Baris
-        
-
-        /*for (i = 0; i < n; i++) {
-            int idx = i;
-            int det = 1;
-            while (matriks[idx][i] == 0 && p < n){
-                idx++;
-
-            }
-            if (idx == n){
-                continue;
-            }
-            if (idx != i) {
-                for (j = 0; j < n; j++) {
-                    swapBarisDet(matriks, idx, j, i, j);
-                    det = (int)(det * Math.pow(-1, idx-i));
-                    System.out.print(det+"\n");
-                }
-            }
-        }*/
-
         // buat copy matrix
-        double[][] copyMatriks = copyMatriks(matriks, m,n);
+        // double[][] copyMatriks = copyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
 
-        System.out.print("Matriks setelah diswitch:\n");
-        printMatriks(matriks, m, n);
-        System.out.print("\n");
+        // System.out.print("Matriks setelah diswitch:\n");
+        // printMatriks(matriks, m, n);
+        // System.out.print("\n");
 
-        // SATU UTAMA SUDAH TERBENTUK
-
-        // MULAI MELAKUKAN ALGORITMA MATTHEW
-
-        // Bagian Pengurangan Baris
-        // Definisi algoritma seperti yg sudah dibahas oleh Kelompok
-        // Langkah 1) Bn - B(n-1); 2) Bn * 1/Elm pertama Bn yang bukan 0; n adalah baris
-        
         for (i = 1; i < m; i++){ // ulang untuk per baris
-            int countSatuUtama = 0;
-            j = 0;
-            while(j <= i-1){
-                if (matriks[i][j] == 0){
-                    countSatuUtama++;
-                }
-                j++;
-            }
-
-            if(countSatuUtama <= i-1){
-                for (k = 0; k < i; k++){ // ulang untuk k- kali
-                    simpan = 1;
-                    zero = true;
-                    for (j = 0; j < n ; j++){
-                        if (matriks[i][j] != 0){
-                            matriks[i][j] -= copyMatriks[k][j]; // 1)
-
-                            if (matriks[i][j] != 0 && zero == true){
-                                simpan = matriks[i][j];
-                                zero = false;
-                            }
-
-                        matriks[i][j] *= 1 / simpan;
-
-                        copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
-                        }else{
-                            k++;
-                        }
-                    penyebut *= 1/simpan;
+            for (k = 0; k < i; k++){ // ulang untuk k- kali
+                rasio = 0;
+                zero = true;
+                for (j = 0; j < n ; j++){
+                    if (matriks[k][j] != 0 && zero == true){
+                        rasio = matriks[i][j]/matriks[k][j];
+                        zero = false;
                     }
+                    matriks[i][j] -= rasio * matriks[k][j]; // 1)
+
+                    // if (matriks[i][j] != 0 && zero == true){
+                    //     simpan = matriks[i][j];
+                    //     zero = false;
+                    // }
+
+                    //matriks[i][j] *= 1 / simpan;
+
+                    //copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
                 }
             }
         }
@@ -475,7 +427,6 @@ class Matriks{
             }
         }
         //printMatriks(matriks, getRow(matriks), getCol(matriks));
-        System.out.println(pembilang + " " + penyebut);
 
         return (Math.pow(-1,p) * pembilang/penyebut);
     }
@@ -581,5 +532,110 @@ class Matriks{
         }
 
         return trans;
+    }
+
+    double[][] InversOBE (double[][] matriks, int m, int n){
+        double[][] identitas = makeIdentitas(getRow(matriks), getCol(matriks));
+
+        int i,j,k,l;
+        double rasio,simpan;
+        boolean zero, one;
+
+        sortingMatrix();
+
+        /* ALGORITMA */
+        // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
+        for (i = 0; i < m; i++){
+            j = 0;
+            simpan = 1;
+            zero = true;
+            //ambil elemen pertama pada baris yang bukan 0
+            while (j < n && zero == true){
+                if (matriks[i][j] != 0){
+                    simpan = matriks[i][j];
+                    zero = false;
+                }
+                j++;
+            }
+
+            rasio = 1 / simpan;
+
+            for (j = 0; j < n ; j++){
+                matriks[i][j] *= rasio;
+                identitas[i][j] *= rasio;
+            }
+        }
+
+        // printMatriks(matriks, getRow(matriks), getCol(matriks));
+
+        // buat copy matrix
+        //double[][] copyMatriks = copyMatriks(matriks, m,n);
+        // copy matrix sudah terdefinisi
+
+        for (i = 1; i < m; i++){ // ulang untuk per baris
+            for (k = 0; k < i; k++){ // ulang untuk k- kali
+                rasio = 0;
+                zero = true;
+                for (j = 0; j < n ; j++){
+                    if (matriks[k][j] != 0 && zero == true){
+                        rasio = matriks[i][j]/matriks[k][j];
+                        zero = false;
+                    }
+                    matriks[i][j] -= rasio * matriks[k][j]; // 1)
+                    identitas[i][j] -= rasio * identitas[k][j];
+
+                    // if (matriks[i][j] != 0 && zero == true){
+                    //     simpan = matriks[i][j];
+                    //     zero = false;
+                    // }
+
+                    //matriks[i][j] *= 1 / simpan;
+
+                    //copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
+                }
+            }
+        }
+
+        for (i = 0; i < m; i++){
+            j = 0;
+            simpan = 1;
+            zero = true;
+            //ambil elemen pertama pada baris yang bukan 0
+            while (j < n && zero == true){
+                if (matriks[i][j] != 0){
+                    simpan = matriks[i][j];
+                    zero = false;
+                }
+                j++;
+            }
+
+            rasio = 1 / simpan;
+
+            for (j = 0; j < n ; j++){
+                matriks[i][j] *= rasio;
+                identitas[i][j] *= rasio;
+            }
+        }
+        
+        //Mulai eliminasi Gauss-Jordan
+        for (i = 1; i < m; i++){
+            simpan = 1;
+            one = true;
+            for (j = 0; j < n; j++){
+                // ambil elemen pertama yang sudah pasti 1 pada tiap baris
+                if (matriks[i][j] == 1 && one == true){
+                    for (k = 1; k <= i; k++){
+                        simpan = matriks[i-k][j]; // ambil elemen atasnya
+                        one = false;
+                        // harus loop di kolomnya
+                        for (l = 0; l<n; l++){
+                            matriks[i-k][l] -= simpan * matriks[i][l];
+                            identitas[i-k][l] -= simpan * identitas[i][l];
+                        }
+                    }
+                }
+            }
+        }
+        return identitas;
     }
 }
