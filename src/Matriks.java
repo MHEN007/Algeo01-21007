@@ -120,17 +120,50 @@ class Matriks{
         return isIdentitas;
     }
 
-    double[][] swapBaris(double[][] matriks, int i, int j){ // fungsi swap baris
-        double temp;
-        int numColumns = matriks[0].length;
-        for (int k = 0; k < numColumns; k++){
-            temp = matriks[i][k];
-            matriks[i][k] = matriks[j][k];
-            matriks[j][k] = temp;
+    void swapBaris(int i1, int i2){ // fungsi swap baris
+        for (int i = 0; i < n; i++) {
+            double temp = matriks[i1][i];
+            matriks[i1][i] = matriks[i2][i];
+            matriks[i2][i] = temp;
+            }
         }
-        this.matriks = matriks;
-        return matriks;
-        
+
+    int cariIndex(int idx){
+        boolean found = false;
+        int i = 0;
+        while (!(found) && (i<n)){
+            if (matriks[idx][i] != 0){
+                found = true;
+            }
+            else{
+                i++;
+            }
+        }
+        if (found==true){
+            return i;
+        }
+        else{
+            return n;
+        }
+    }
+
+    void sortingMatrix(){
+        int i,j;
+        int p = 0;
+        if (m > 1){
+            for (i = 0; i < m; i++){
+                int rowMax = i;
+                for (j = i + 1; j < m; j++){
+                    int foundIndexLead = cariIndex(j);
+                    if (foundIndexLead < cariIndex(rowMax)){
+                        rowMax=j;
+                        p += 1;
+                    }
+                }
+            swapBaris(i, rowMax);
+            }
+        }
+        System.out.print("Berapa kali switch? "+p+"\n");
     }
 
     double[][] perkalian(double[][] matA, double[][] matB){
@@ -202,7 +235,7 @@ class Matriks{
         }
 
         // Swap Baris
-        int var = 0; 
+        /*int var = 0; 
         int jumlahBaris = matriks.length; //menghitung panjang baris matriks
         int jumlahKolom = matriks[0].length; //menghitung panjang kolom matriks
 
@@ -223,7 +256,7 @@ class Matriks{
 
             }
             matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
-        }
+        }*/
 
         // buat copy matrix
         double[][] copyMatriks = copyMatriks(matriks, m,n);
@@ -294,7 +327,7 @@ class Matriks{
         Gauss(matriks,m,n);
         
         //Mulai eliminasi Gauss-Jordan
-        for (i = 1; i<m; i++){
+        for (i = 1; i < m; i++){
             simpan = 1;
             one = true;
             for (j = 0; j < n; j++){
@@ -347,10 +380,15 @@ class Matriks{
         int i,j,k,l;
         double rasio, rasio1, simpan;
         boolean zero;
+        int det = 1;
         double pembilang = 1;
         double penyebut = 1;
         int p = 0; //jumlah switch yang terjadi
         
+        if (m != 2 && n != 2){
+            sortingMatrix();
+        }
+
         /* ALGORITMA */
         // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
@@ -376,33 +414,34 @@ class Matriks{
         }
 
         // Swap Baris
-        int var = 0; 
-        int jumlahBaris = matriks.length; //menghitung panjang baris matriks
-        int jumlahKolom = matriks[0].length; //menghitung panjang kolom matriks
+        
 
-        for(k = 0; k < jumlahBaris; k++){
-            if (jumlahBaris <= var){  //panjang baris kurang dari 0
-                break;
+        /*for (i = 0; i < n; i++) {
+            int idx = i;
+            int det = 1;
+            while (matriks[idx][i] == 0 && p < n){
+                idx++;
+
             }
-            i = k;
-            while(matriks[i][var] == 0){ //kondisi pengecekan kolom apakah ada 0 atau tidak
-                i++;
-                if(jumlahBaris == i){ 
-                    i = k;
-                    var++;
-                    if(jumlahKolom == var){ //ketika jumlah kolom semua sudah dicek
-                        break;
-                    }
+            if (idx == n){
+                continue;
+            }
+            if (idx != i) {
+                for (j = 0; j < n; j++) {
+                    swapBarisDet(matriks, idx, j, i, j);
+                    det = (int)(det * Math.pow(-1, idx-i));
+                    System.out.print(det+"\n");
                 }
-
             }
-            matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
-            //p++;
-        }
+        }*/
 
         // buat copy matrix
         double[][] copyMatriks = copyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
+
+        System.out.print("Matriks setelah diswitch:\n");
+        printMatriks(matriks, m, n);
+        System.out.print("\n");
 
         // SATU UTAMA SUDAH TERBENTUK
 
@@ -413,15 +452,26 @@ class Matriks{
         // Langkah 1) Bn - B(n-1); 2) Bn * 1/Elm pertama Bn yang bukan 0; n adalah baris
         
         for (i = 1; i < m; i++){ // ulang untuk per baris
-            for (k = 0; k < i; k++){ // ulang untuk k- kali
-                simpan = 1;
-                zero = true;
-                for (j = 0; j < n ; j++){
-                    matriks[i][j] -= copyMatriks[k][j]; // 1)
+            int countSatuUtama = 0;
+            j = 0;
+            while(j <= i-1){
+                if (matriks[i][j] == 0){
+                    countSatuUtama++;
+                }
+                j++;
+            }
 
-                    if (matriks[i][j] != 0 && zero == true){
-                        simpan = matriks[i][j];
-                        zero = false;
+            if(countSatuUtama <= i-1){
+                for (k = 0; k < i; k++){ // ulang untuk k- kali
+                    simpan = 1;
+                    zero = true;
+                    for (j = 0; j < n ; j++){
+                        if (matriks[i][j] != 0){
+                        matriks[i][j] -= copyMatriks[k][j]; // 1)
+
+                        if (matriks[i][j] != 0 && zero == true){
+                            simpan = matriks[i][j];
+                            zero = false;
                     }
 
                     matriks[i][j] *= 1 / simpan;
@@ -429,8 +479,10 @@ class Matriks{
                     copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
                 }
                 penyebut *= 1/simpan;
+                }
             }
         }
+    }
         
         // Pengurangan Baris Selesai
 
