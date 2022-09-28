@@ -147,7 +147,7 @@ class Matriks{
         }
     }
 
-    void sortingMatrix(){
+    int sortingMatrix(){
         int i,j;
         int p = 0;
         if (m > 1){
@@ -164,6 +164,7 @@ class Matriks{
             }
         }
         System.out.print("Berapa kali switch? "+p+"\n");
+        return p;
     }
 
     double[][] perkalian(double[][] matA, double[][] matB){
@@ -211,6 +212,8 @@ class Matriks{
         double rasio, rasio1, simpan;
         boolean zero;
 
+        sortingMatrix();
+
         /* ALGORITMA */
         // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
@@ -233,38 +236,11 @@ class Matriks{
                 matriks[i][j] *= rasio;
             }
         }
-
-        // Swap Baris
-        /*int var = 0; 
-        int jumlahBaris = matriks.length; //menghitung panjang baris matriks
-        int jumlahKolom = matriks[0].length; //menghitung panjang kolom matriks
-
-        for(k = 0; k < jumlahBaris; k++){
-            if (jumlahBaris <= var){  //panjang baris kurang dari 0
-                break;
-            }
-            i = k;
-            while(matriks[i][var] == 0){ //kondisi pengecekan kolom apakah ada 0 atau tidak
-                i++;
-                if(jumlahBaris == i){ 
-                    i = k;
-                    var++;
-                    if(jumlahKolom == var){ //ketika jumlah kolom semua sudah dicek
-                        break;
-                    }
-                }
-
-            }
-            matriks = swapBaris(matriks, i, k); //menukar baris pada matriks
-        }*/
+        printMatriks(matriks, getRow(matriks), getCol(matriks));
 
         // buat copy matrix
         double[][] copyMatriks = copyMatriks(matriks, m,n);
         // copy matrix sudah terdefinisi
-        
-        System.out.print("Matriks setelah diswitch:\n");
-        printMatriks(matriks, m, n);
-        System.out.print("\n");
 
         // SATU UTAMA SUDAH TERBENTUK
 
@@ -301,8 +277,11 @@ class Matriks{
                             matriks[i][j] *= 1 / simpan;
 
                             copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
+                        }else{
+                            k++;
                         }
                     }
+                    sortingMatrix();
                 }
             }
             
@@ -348,8 +327,8 @@ class Matriks{
     }
 
     double[][] SPLInvers(double[][] matriks, int m, int n){
-        double[][] matA = copyMatriks(matriks, m, n-1);
-        double[][] matB = copyMatriks(matriks, m, 1);
+        double[][] matA = makeMatrix(m, n-1);
+        double[][] matB = makeMatrix(m, 1);
 
         //isi matriks A
         for(int i = 0; i < m; i++){
@@ -383,12 +362,10 @@ class Matriks{
         int det = 1;
         double pembilang = 1;
         double penyebut = 1;
-        int p = 0; //jumlah switch yang terjadi
+        //int p = 0; //jumlah switch yang terjadi
         
-        if (m != 2 && n != 2){
-            sortingMatrix();
-        }
-
+        int p = sortingMatrix();
+        
         /* ALGORITMA */
         // MULAI MEMBUAT SATU UTAMA
         // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
@@ -467,22 +444,24 @@ class Matriks{
                     zero = true;
                     for (j = 0; j < n ; j++){
                         if (matriks[i][j] != 0){
-                        matriks[i][j] -= copyMatriks[k][j]; // 1)
+                            matriks[i][j] -= copyMatriks[k][j]; // 1)
 
-                        if (matriks[i][j] != 0 && zero == true){
-                            simpan = matriks[i][j];
-                            zero = false;
+                            if (matriks[i][j] != 0 && zero == true){
+                                simpan = matriks[i][j];
+                                zero = false;
+                            }
+
+                        matriks[i][j] *= 1 / simpan;
+
+                        copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
+                        }else{
+                            k++;
+                        }
+                    penyebut *= 1/simpan;
                     }
-
-                    matriks[i][j] *= 1 / simpan;
-
-                    copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
-                }
-                penyebut *= 1/simpan;
                 }
             }
         }
-    }
         
         // Pengurangan Baris Selesai
 
@@ -495,6 +474,8 @@ class Matriks{
                 }
             }
         }
+        //printMatriks(matriks, getRow(matriks), getCol(matriks));
+        System.out.println(pembilang + " " + penyebut);
 
         return (Math.pow(-1,p) * pembilang/penyebut);
     }
@@ -504,16 +485,16 @@ class Matriks{
         sebuah SPL */
 
         /* KAMUS LOKAL */
-        double[][] copy = copyMatriks(matriks,m,n);
-        double[][] matA = copyMatriks(matriks, m, n-1); // ukuran barisnya selalu kurang dari 1
-        double[][] matB = copyMatriks(matriks, m, 1); // hanya m baris x 1 kolom. diisi elemen paling ujung
+        double[][] copy = copyMatriks(matriks,m,n-1);
+        double[][] matA = makeMatrix(m,n-1); // ukuran barisnya selalu kurang dari 1
+        double[][] matB = makeMatrix(m,1); // hanya m baris x 1 kolom. diisi elemen paling ujung
         double det; // determinan dasar
         double detx; // determinan berikutnya
 
 
         /* ALGORITMA */
         //hitung determinan awalnya
-        det = Determinan(copy,m,n);
+        det = DeterminanKof(copy,getRow(copy), getCol(copy));
 
         //isi matriks A
         for(int i = 0; i < m; i++){
@@ -533,7 +514,7 @@ class Matriks{
             for (j = 0; j < m; j++){
                 matA[j][i] = matB[j][0]; // menukar kolom ke N dengan matriks B
             }
-            detx = Determinan(matA, getRow(matA), getCol(matA)); // menghitung determinan dari matriks A
+            detx = DeterminanKof(matA, getRow(matA), getCol(matA)); // menghitung determinan dari matriks A
             System.out.println("Nilai x"+(i+1)+" adalah "+(detx/det));
             matA = copyMatriks(matriks, m, n-1); // mengembalikan matriks A ke awal
         }
@@ -578,16 +559,16 @@ class Matriks{
         double[][] copy = copyMatriks(matrix,m,n);
         double[][] kof = makeMatrix(m,n);
 
-        double det = Determinan(copy, m,n);
+        double det = DeterminanKof(copy, m,n);
 
         for (i = 0; i < m; i++){
             for (j = 0; j < n ; j++){
                 double[][] minor = makeMinor(matrix,m,n,i,j);
-                kof[i][j] = Math.pow(-1,i+j+2) * Determinan(minor, getRow(minor), getCol(minor));
+                kof[i][j] = Math.pow(-1,i+j+2) * DeterminanKof(minor, getRow(minor), getCol(minor));
             }
         }
 
-        //matriks.printMatriks(kof,kof.length,kof[0].length);
+        //printMatriks(kof,kof.length,kof[0].length);
 
         // transpose
 
@@ -595,7 +576,7 @@ class Matriks{
 
         for (i = 0; i<m; i++){
             for (j = 0; j < n; j++){
-                trans[i][j] = Math.round((1/det)*kof[j][i]);
+                trans[i][j] = (1/det)*kof[j][i];
             }
         }
 
