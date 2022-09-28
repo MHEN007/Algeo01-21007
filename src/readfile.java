@@ -1,53 +1,54 @@
-import java.io.File;
-import java.util.Scanner;
+import java.io. *;
+import java.util. *;
 
-class readfile {
-    public static void main(String[] args) throws Exception{
-        File file = new File("D:\\JASON\\KULIAH ITB\\MATKUL\\SEMESTER 3\\Aljabar Linier & Geometri\\TUBES 1\\Algeo01-21007\\src\\matrix.txt");
-        Scanner sc = new Scanner(file);
- 
-        while (sc.hasNextLine()){
-            System.out.println(sc.nextLine());
+class ReadFile {
+    /* I.S. Menerima suatu file .txt berisi matriks;
+        F.S. Mengembalikan isi dari file .txt tsb dengan array matriks dg
+        ukuran yang bersesuaian */
+    ReadFile(){}
+    double[][] matriks;
+    double[][] readfile(String filename){
+        Matriks m = new Matriks();
+        try{
+            int countRow = 0;
+            int countCol = 1;
+            String line = "";
+
+            File file = new File(filename);
+            Scanner sc = new Scanner(file);        
+
+            // hitung baris
+            while (sc.hasNextLine()){
+                line = sc.nextLine();
+                countRow++;
+            }
+
+            // hitung kolom
+            for (int i = 0; i < line.length() - 1; i++){
+                if ((line.charAt(i) == ' ') && (line.charAt(i + 1) != ' ')){
+                    countCol++;
+                }
+            }
+            
+            // inisialisasi matriks
+            double[][] matriks = new double[countRow][countCol];
+
+            // isi matriks
+            Scanner sc1 = new Scanner(file);
+            for (int i = 0; i < m.getRow(matriks); i++){
+                for (int j = 0; j < m.getCol(matriks); j++){
+                    matriks[i][j] = sc1.nextDouble();
+                }
+            }
+
+            this.matriks = matriks;
+
+            //m.printMatriks(matriks, m.getRow(matriks), m.getCol(matriks));
+
+        } catch (FileNotFoundException e){
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
+        return matriks;
     }
 }
-
-// Yang dari Matthew
-// def load_file(args, file_name):
-    // saveas = []
-    // temp = ""
-    // cc = []
-    // with open (f'{args}/{file_name}.csv', "r") as file:
-        // for row in file:
-            // for char in row:
-                // if char != ";" and char!="\n":
-                    // temp += char
-                // else:
-                    // cc += [temp]
-                    // temp = ""
-            // saveas += [cc]
-            // cc = []
-    // file.close()
-    // return(saveas)
-
-// Kalo w coba terjemahin:
-// class load_file(String [] args){
-    // array saveas = [];
-    // char temp = "";
-    // array cc = [];
-    // File file = new File (matrix.txt);
-        // for (row in file){
-            // for (char in row){
-                // if (char != ";" && char != "\n"){
-                    // temp += char;
-                // }
-                // else{
-                    // temp = "";
-                // }
-            // }
-            // saveas += [cc];
-            // cc = [];
-        // }
-    // file.close();
-    // return(saveas);
-// }
