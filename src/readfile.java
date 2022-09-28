@@ -14,7 +14,7 @@ class ReadFile {
             int countCol = 1;
             String line = "";
 
-            File file = new File(filename);
+            File file = new File("../test/"+filename);
             Scanner sc = new Scanner(file);        
 
             // hitung baris
