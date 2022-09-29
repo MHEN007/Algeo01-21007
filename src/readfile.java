@@ -31,7 +31,7 @@ class ReadFile {
             }
             
             // inisialisasi matriks
-            double[][] matriks = new double[countRow][countCol];
+            double[][] matriks = m.makeMatrix(countRow,countCol);
 
             // isi matriks
             Scanner sc1 = new Scanner(file);

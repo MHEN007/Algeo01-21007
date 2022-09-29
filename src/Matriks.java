@@ -125,8 +125,8 @@ class Matriks{
             double temp = matriks[i1][i];
             matriks[i1][i] = matriks[i2][i];
             matriks[i2][i] = temp;
-            }
         }
+    }
 
     int cariIndex(int idx){
         boolean found = false;
@@ -384,14 +384,6 @@ class Matriks{
             }
         }
 
-        // buat copy matrix
-        // double[][] copyMatriks = copyMatriks(matriks, m,n);
-        // copy matrix sudah terdefinisi
-
-        // System.out.print("Matriks setelah diswitch:\n");
-        // printMatriks(matriks, m, n);
-        // System.out.print("\n");
-
         for (i = 1; i < m; i++){ // ulang untuk per baris
             for (k = 0; k < i; k++){ // ulang untuk k- kali
                 rasio = 0;
@@ -402,15 +394,6 @@ class Matriks{
                         zero = false;
                     }
                     matriks[i][j] -= rasio * matriks[k][j]; // 1)
-
-                    // if (matriks[i][j] != 0 && zero == true){
-                    //     simpan = matriks[i][j];
-                    //     zero = false;
-                    // }
-
-                    //matriks[i][j] *= 1 / simpan;
-
-                    //copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
                 }
             }
         }
@@ -557,10 +540,8 @@ class Matriks{
                     operasi[i][j] = identitas[i][j-n];
                 }
             }
-                    printMatriks(operasi,m,o);
 
             GaussJordan(operasi,m,o);
-            printMatriks(operasi,m,o);
 
             for(i=0;i<m;i++){
                 for (j=n;j<o;j++){
