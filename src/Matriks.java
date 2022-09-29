@@ -535,107 +535,41 @@ class Matriks{
     }
 
     double[][] InversOBE (double[][] matriks, int m, int n){
-        double[][] identitas = makeIdentitas(getRow(matriks), getCol(matriks));
+        double[][] copydet = copyMatriks(matriks,m,n);
+        double[][] identitas = makeIdentitas(m,n);
+        int o = n*2;
+        double[][] operasi = makeMatrix(m,o);
+        double[][] hasil = makeMatrix(m,n);        
+        int i,j,k;
 
-        int i,j,k,l;
-        double rasio,simpan;
-        boolean zero, one;
-
-        sortingMatrix();
-
-        /* ALGORITMA */
-        // Membuat elemen pertama bukan 0 pada tiap baris menjadi 1
-        for (i = 0; i < m; i++){
-            j = 0;
-            simpan = 1;
-            zero = true;
-            //ambil elemen pertama pada baris yang bukan 0
-            while (j < n && zero == true){
-                if (matriks[i][j] != 0){
-                    simpan = matriks[i][j];
-                    zero = false;
-                }
-                j++;
-            }
-
-            rasio = 1 / simpan;
-
-            for (j = 0; j < n ; j++){
-                matriks[i][j] *= rasio;
-                identitas[i][j] *= rasio;
-            }
-        }
-
-        // printMatriks(matriks, getRow(matriks), getCol(matriks));
-
-        // buat copy matrix
-        //double[][] copyMatriks = copyMatriks(matriks, m,n);
-        // copy matrix sudah terdefinisi
-
-        for (i = 1; i < m; i++){ // ulang untuk per baris
-            for (k = 0; k < i; k++){ // ulang untuk k- kali
-                rasio = 0;
-                zero = true;
-                for (j = 0; j < n ; j++){
-                    if (matriks[k][j] != 0 && zero == true){
-                        rasio = matriks[i][j]/matriks[k][j];
-                        zero = false;
-                    }
-                    matriks[i][j] -= rasio * matriks[k][j]; // 1)
-                    identitas[i][j] -= rasio * identitas[k][j];
-
-                    // if (matriks[i][j] != 0 && zero == true){
-                    //     simpan = matriks[i][j];
-                    //     zero = false;
-                    // }
-
-                    //matriks[i][j] *= 1 / simpan;
-
-                    //copyMatriks[i][j] = matriks[i][j]; // copy hasil yang sudah dikurangi ke dalam copy matriks
+        if (Determinan(copydet,getRow(copydet),getCol(copydet)) == 0){
+            System.out.println("Tidak dapat menemukan matriks karena determinan bernilai 0!");
+        }else{
+            //masukkan matriks ditanya ke matriks operasi
+            for (i=0;i<m;i++){
+                for(j=0;j<n;j++){
+                    operasi[i][j] = matriks[i][j];
                 }
             }
-        }
-
-        for (i = 0; i < m; i++){
-            j = 0;
-            simpan = 1;
-            zero = true;
-            //ambil elemen pertama pada baris yang bukan 0
-            while (j < n && zero == true){
-                if (matriks[i][j] != 0){
-                    simpan = matriks[i][j];
-                    zero = false;
-                }
-                j++;
-            }
-
-            rasio = 1 / simpan;
-
-            for (j = 0; j < n ; j++){
-                matriks[i][j] *= rasio;
-                identitas[i][j] *= rasio;
-            }
-        }
-        
-        //Mulai eliminasi Gauss-Jordan
-        for (i = 1; i < m; i++){
-            simpan = 1;
-            one = true;
-            for (j = 0; j < n; j++){
-                // ambil elemen pertama yang sudah pasti 1 pada tiap baris
-                if (matriks[i][j] == 1 && one == true){
-                    for (k = 1; k <= i; k++){
-                        simpan = matriks[i-k][j]; // ambil elemen atasnya
-                        one = false;
-                        // harus loop di kolomnya
-                        for (l = 0; l<n; l++){
-                            matriks[i-k][l] -= simpan * matriks[i][l];
-                            identitas[i-k][l] -= simpan * identitas[i][l];
-                        }
-                    }
+            
+            for(i=0;i<m;i++){
+                for (j=n;j<o;j++){
+                    operasi[i][j] = identitas[i][j-n];
                 }
             }
+                    printMatriks(operasi,m,o);
+
+            GaussJordan(operasi,m,o);
+            printMatriks(operasi,m,o);
+
+            for(i=0;i<m;i++){
+                for (j=n;j<o;j++){
+                    hasil[i][j-n] = operasi[i][j];
+                }
+            }
+
+            printMatriks(hasil,m,n);
         }
-        return identitas;
+        return hasil;
     }
 }
