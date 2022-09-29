@@ -27,7 +27,7 @@ class Gauss{
         }else if (countZero == n-1){
             System.out.println("SPL ini tidak memiliki solusi");
         }else{ // ada solusi
-            double[] solusi = new double[m]; // jumlah variabel solusi adalah sejumlah barisnya
+            double[] solusi = new double[n-1]; // jumlah variabel solusi adalah sejumlah kolomnya dikurangi 1
         
             // backward subs dimulai dari belakang
             for (int i = m-1; i >= 0; i--){

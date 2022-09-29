@@ -524,32 +524,26 @@ class Matriks{
         double[][] operasi = makeMatrix(m,o);
         double[][] hasil = makeMatrix(m,n);        
         int i,j,k;
-
-        if (Determinan(copydet,getRow(copydet),getCol(copydet)) == 0){
-            System.out.println("Tidak dapat menemukan matriks karena determinan bernilai 0!");
-        }else{
-            //masukkan matriks ditanya ke matriks operasi
-            for (i=0;i<m;i++){
-                for(j=0;j<n;j++){
-                    operasi[i][j] = matriks[i][j];
-                }
+ 
+        //masukkan matriks ditanya ke matriks operasi
+        for (i=0;i<m;i++){
+            for(j=0;j<n;j++){
+                operasi[i][j] = matriks[i][j];
             }
-            
-            for(i=0;i<m;i++){
-                for (j=n;j<o;j++){
-                    operasi[i][j] = identitas[i][j-n];
-                }
+        }
+        
+        for(i=0;i<m;i++){
+            for (j=n;j<o;j++){
+                operasi[i][j] = identitas[i][j-n];
             }
+        }
 
-            GaussJordan(operasi,m,o);
+        GaussJordan(operasi,m,o);
 
-            for(i=0;i<m;i++){
-                for (j=n;j<o;j++){
-                    hasil[i][j-n] = operasi[i][j];
-                }
+        for(i=0;i<m;i++){
+            for (j=n;j<o;j++){
+                hasil[i][j-n] = operasi[i][j];
             }
-
-            printMatriks(hasil,m,n);
         }
         return hasil;
     }
