@@ -9,7 +9,8 @@ class Matriks{
     */
     
     /* KAMUS LOKAL */
-    int i,j,m,n;
+    int i,j,m;
+    int n=1;
     double[][] matriks;
 
     /* KONSTRUKTOR MATRIKS */
@@ -18,28 +19,11 @@ class Matriks{
     /* PRIMITIF INPUT MATRIKS */
     int inputRow(){ // memasukkan baris dari matriks
         Scanner in = new Scanner (System.in);
-        System.out.print("Masukkan baris (m): ");
-        m = in.nextInt();
-        this.m = m;
-        return m;
-    }
-
-    int inputRowPolynomial(){ // memasukkan baris dari matriks
-        Scanner in = new Scanner (System.in);
         System.out.print("Masukkan jumlah koordinat: ");
         m = in.nextInt();
         this.m = m;
         return m;
     }
-
-    int inputCol(){ // memasukkan kolom dari matriks
-        Scanner in = new Scanner (System.in);
-        System.out.print("Masukkan kolom (n): ");
-        n = in.nextInt();
-        this.n = n;
-        return n;
-    }
-
 
     double[][] makeMatrix(int m, int n){ // membuat matriks sembarang dan mengembalikannya
         double[][] matriks = new double[m][n];
@@ -560,5 +544,22 @@ class Matriks{
             printMatriks(hasil,m,n);
         }
         return hasil;
+    }
+
+    void PolynomialInterpolation(double[][] matriks, int m, int n){
+
+        /* KAMUS LOKAL */
+        int i,j,k,l;
+
+        // membuat matriks kolom idx 0 pangkat d
+
+        for (i = 0 ; i < m ; i++){
+			int j;
+			for (j=0 ; j<(n-1) ; j++){
+				Matriks[i][j]=Math.pow(Matriks[i][0],j);
+            }
+        }
+
+        Gauss(matriks, m, n);
     }
 }

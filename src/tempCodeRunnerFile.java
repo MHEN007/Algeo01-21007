@@ -1,0 +1,1 @@
+matriks.printMatriks(matrix,m,n);
