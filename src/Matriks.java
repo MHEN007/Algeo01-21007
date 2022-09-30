@@ -229,10 +229,10 @@ class Matriks{
                 j++;
             }
 
-            rasio = 1 / simpan;
+            //rasio = 1 / simpan;
 
             for (j = 0; j < n ; j++){
-                matriks[i][j] *= rasio;
+                matriks[i][j] /= simpan;
             }
         }
         // printMatriks(matriks, getRow(matriks), getCol(matriks));
@@ -294,10 +294,10 @@ class Matriks{
                 j++;
             }
 
-            rasio = 1 / simpan;
+            //rasio = 1 / simpan;
 
             for (j = 0; j < n ; j++){
-                matriks[i][j] *= rasio;
+                matriks[i][j] /= simpan;
             }
         }
         

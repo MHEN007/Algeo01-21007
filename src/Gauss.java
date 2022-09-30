@@ -22,8 +22,27 @@ class Gauss{
                 countZero++;
             }
         }
-        if (countZero == n){
+        if (countZero == n || matriks.getRow(matrix) < (matriks.getCol(matrix)-1)){
             System.out.println("SPL ini memiliki banyak solusi");
+            double[] solusi = new double[n-1];
+            int l = 1;
+
+            for (int i = m-1; i >= 0; i--){
+                double sum = 0;
+                for (int j = 0; j < n-1; j++){
+                    sum += (matrix[i][j] * solusi[j]);
+                }
+                for (int j = 0; j < (n-l); j++){
+                    if(matrix[i][j] != 0)
+                        solusi[j] = (matrix[i][n-1] - sum) / matrix[i][j];
+                }
+                l++;
+            }
+            
+            for (int i = 0; i < n-1; i++){
+                System.out.println("x"+(i+1)+" = "+solusi[i]);
+            }
+
         }else if (countZero == n-1){
             System.out.println("SPL ini tidak memiliki solusi");
         }else{ // ada solusi
@@ -38,7 +57,7 @@ class Gauss{
                 solusi[i] = (matrix[i][n-1] - sum) / matrix[i][i];
             }
 
-            for (int i = 0; i < m; i++){
+            for (int i = 0; i < n-1; i++){
                 System.out.println("x"+(i+1)+" = "+solusi[i]);
             }
         }
