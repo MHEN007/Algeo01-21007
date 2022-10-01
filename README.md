@@ -1,5 +1,4 @@
-# Tugas Besar Aljabar Linear Geometri
-# IF2123
+# Tugas Besar 1 Aljabar Linear Geometri - IF2123
 
 ## Dibuat Oleh
 1. Matthew Mahendra - 13521007
@@ -13,14 +12,13 @@ problem yang ada.
 
 Program ini dibuat menggunakan bahasa Java.
 
-## Direktori
+## Penjelasan Direktori
 Direktori `src` berisi source code dari program ini. Direktori `doc` berisi dokumen laporan. Direktori `test` berisi kumpulan
 test file yang digunakan untuk menguji program. Direktori `bin` berisi kelas-kelas dari program Java yang sudah dibuat.
 
 ## Cara Menjalankan
-Program dijalankan pada `main.java`. Langkah-langkahnya sebagai berikut
-1. Change Directory ke `bin`
-2. Ketikkan `javac Main.java`
-3. Change Directory ke `src`
-4. Ketikkan `java Main`
-5. Program sudah dapat dijalankan
+Program dijalankan pada `Main.java`. Langkah-langkahnya sebagai berikut
+1. Change Directory ke `src`
+2. Ketikkan `javac -d ../bin Main.java`
+3. Ketikkan `java -cp ../bin Main.java`
+4. Program sudah dapat dijalankan
