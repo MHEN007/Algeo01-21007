@@ -20,5 +20,5 @@ test file yang digunakan untuk menguji program. Direktori `bin` berisi kelas-kel
 Program dijalankan pada `Main.java`. Langkah-langkahnya sebagai berikut
 1. Change Directory ke `src`
 2. Ketikkan `javac -d ../bin Main.java`
-3. Ketikkan `java -cp ../bin Main.java`
+3. Ketikkan `java -cp ../bin Main`
 4. Program sudah dapat dijalankan
