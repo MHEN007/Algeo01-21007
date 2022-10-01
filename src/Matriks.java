@@ -322,7 +322,7 @@ class Matriks{
         this.matriks = matriks;
     }
 
-    double[][] SPLInvers(double[][] matriks, int m, int n){
+    String[] SPLInvers(double[][] matriks, int m, int n){
         double[][] matA = makeMatrix(m, n-1);
         double[][] matB = makeMatrix(m, 1);
 
@@ -338,15 +338,28 @@ class Matriks{
             matB[i][0] = matriks[i][n-1];
         }
 
-        // buat invers matA
-        double[][] invMatA = InversAdj(matA,getRow(matA),getCol(matA));
+        double[][] copyMatA = copyMatriks(matA, m, n-1);
 
-        // hasil nya
+        if(DeterminanKof(copyMatA,m,n-1) == 0){
+            String[] solusi = new String[1];
+            solusi[0] = "SPL ini tidak ada solusinya";
+            return solusi;
+        }else{
+            // buat invers matA
+            double[][] invMatA = InversAdj(matA,getRow(matA),getCol(matA));
 
-        double[][] x = perkalian(invMatA, matB);
-        printMatriks(x,getRow(x),getCol(x));
+            // hasil nya
 
-        return x;
+            double[][] x = perkalian(invMatA, matB);
+
+            String[] solusi = new String[getRow(x)];
+            
+            for (int l = 0; l <getRow(x); l++){
+                solusi[l] = "x"+(l+1)+" = "+x[l][0];
+            }
+
+            return solusi;
+        }
     }
 
     double Determinan(double[][] matriks, int m, int n){
@@ -414,7 +427,7 @@ class Matriks{
         return (Math.pow(-1,p) * pembilang/penyebut);
     }
 
-    void SarrusCrammer(double[][] matriks, int m, int n){
+    String[] SarrusCrammer(double[][] matriks, int m, int n){
         /* Melakukan proses sarrus-crammer untuk mendapatkan hasil dari 
         sebuah SPL */
 
@@ -424,34 +437,42 @@ class Matriks{
         double[][] matB = makeMatrix(m,1); // hanya m baris x 1 kolom. diisi elemen paling ujung
         double det; // determinan dasar
         double detx; // determinan berikutnya
+        String[] solusi = new String[n-1];
 
 
         /* ALGORITMA */
         //hitung determinan awalnya
         det = DeterminanKof(copy,getRow(copy), getCol(copy));
-
-        //isi matriks A
-        for(int i = 0; i < m; i++){
-            for (int j = 0; j < n-1; j++){
-                matA[i][j] = matriks[i][j];
+        if(det == 0){
+            System.out.println("SPL ini tidak ada solusinya");
+            solusi[0] = "SPL ini tidak ada solusinya";
+            return solusi;
+        }else{
+            //isi matriks A
+            for(int i = 0; i < m; i++){
+                for (int j = 0; j < n-1; j++){
+                    matA[i][j] = matriks[i][j];
+                }
             }
-        }
 
-        //isi matriks B
-        for(i = 0; i < m; i++){
-            matB[i][0] = matriks[i][n-1];
-        }
-        
-        //proses tukar tempat dan cari nilai x1..xN
-        //dilakukan dalam suatu loop selama N kali dengan N maks adalah jumlah baris-1
-        for (i = 0; i < n-1; i++){
-            for (j = 0; j < m; j++){
-                matA[j][i] = matB[j][0]; // menukar kolom ke N dengan matriks B
+            //isi matriks B
+            for(i = 0; i < m; i++){
+                matB[i][0] = matriks[i][n-1];
             }
-            detx = DeterminanKof(matA, getRow(matA), getCol(matA)); // menghitung determinan dari matriks A
-            System.out.println("Nilai x"+(i+1)+" adalah "+(detx/det));
-            matA = copyMatriks(matriks, m, n-1); // mengembalikan matriks A ke awal
-        }
+            
+            //proses tukar tempat dan cari nilai x1..xN
+            //dilakukan dalam suatu loop selama N kali dengan N maks adalah jumlah baris-1
+            for (i = 0; i < n-1; i++){
+                for (j = 0; j < m; j++){
+                    matA[j][i] = matB[j][0]; // menukar kolom ke N dengan matriks B
+                }
+                detx = DeterminanKof(matA, getRow(matA), getCol(matA)); // menghitung determinan dari matriks A
+                System.out.println("x"+(i+1)+" = "+(detx/det));
+                solusi[i] = "x"+(i+1)+" = "+(detx/det);
+                matA = copyMatriks(matriks, m, n-1); // mengembalikan matriks A ke awal
+            }
+            return solusi;
+        }        
     }
 
     double DeterminanKof(double[][] matrix,int m,int n){
@@ -510,7 +531,7 @@ class Matriks{
 
         for (i = 0; i<m; i++){
             for (j = 0; j < n; j++){
-                trans[i][j] = (1/det)*kof[j][i];
+                trans[i][j] = kof[j][i]/det;
             }
         }
 
@@ -549,7 +570,7 @@ class Matriks{
     }
 
     /* AMBIL SOLUSI DARI SPL */
-    void getSolution(double[][] matrix){
+    String[] getSolution(double[][] matrix){
         int m,n;
         m = getRow(matrix);
         n = getCol(matrix);
@@ -564,6 +585,7 @@ class Matriks{
         }
         if (countZero == n || getRow(matrix) < (getCol(matrix)-1)){
             System.out.println("SPL ini memiliki banyak solusi");
+            String[] output = new String[1]; // nanti ganti;
             double[] solusi = new double[n-1];
             int l = 1;
 
@@ -582,9 +604,13 @@ class Matriks{
             for (int i = 0; i < n-1; i++){
                 System.out.println("x"+(i+1)+" = "+solusi[i]);
             }
+            return output;
 
         }else if (countZero == n-1){
             System.out.println("SPL ini tidak memiliki solusi");
+            String[] output = new String[1];
+            output[0] = "SPL ini tidak memiliki solusi";
+            return output;
         }else{ // ada solusi
             double[] solusi = new double[n-1]; // jumlah variabel solusi adalah sejumlah kolomnya dikurangi 1
         
@@ -596,10 +622,12 @@ class Matriks{
                 }
                 solusi[i] = (matrix[i][n-1] - sum) / matrix[i][i];
             }
-
+            String[] output = new String[n-1];
             for (int i = 0; i < n-1; i++){
+                output[i] = "x"+(i+1)+" = "+solusi[i];
                 System.out.println("x"+(i+1)+" = "+solusi[i]);
             }
+            return output;
         }
     }
 }

@@ -1,13 +1,15 @@
 import java.util. *;
 import java.io. *;
 
-public class menu{
+public class Menu{
     private static Matriks mat = new Matriks();
     private static ReadFile r = new ReadFile();
     private static Save s = new Save();
     public static double[][] matriks;
 
-    public static void main(String[] args){
+    Menu(){}
+
+    void menu(){
         Scanner in = new Scanner (System.in);
         // Start
         boolean state = true;
@@ -46,7 +48,7 @@ public class menu{
         }
     }
 
-    public static void subMenu(int i){
+    void subMenu(int i){
         if (i == 1){
             System.out.println("===========================");
             System.out.println("SUB-MENU");
@@ -63,30 +65,32 @@ public class menu{
                     // masuk metode elminasi gauss
                     matriks = insertMat();
                     mat.Gauss(matriks, mat.getRow(matriks), mat.getCol(matriks));
-                    mat.printMatriks(matriks, mat.getRow(matriks), mat.getCol(matriks));
-                    mat.getSolution(matriks);
-                    s.SaveFile(matriks);
+                    //mat.printMatriks(matriks, mat.getRow(matriks), mat.getCol(matriks));
+                    String[] solusi = mat.getSolution(matriks);
+                    s.SaveFileSPL(solusi);
                     state = false;
                 }else if (j == 2){
                     //masuk metode eliminasi  gauss -jordan
                     matriks = insertMat();
                     mat.GaussJordan(matriks, mat.getRow(matriks), mat.getCol(matriks));
-                    mat.printMatriks(matriks, mat.getRow(matriks), mat.getCol(matriks));
-                    mat.getSolution(matriks);
-                    s.SaveFile(matriks);
+                    //mat.printMatriks(matriks, mat.getRow(matriks), mat.getCol(matriks));
+                    String[] solusi = mat.getSolution(matriks);
+                    s.SaveFileSPL(solusi);
                     state = false;
                 }else if (j == 3){
                     // masuk metode matriks balikan
                     matriks = insertMat();
-                    double[][] inv = mat.SPLInvers(matriks, mat.getRow(matriks), mat.getCol(matriks));
-                    mat.printMatriks(inv, mat.getRow(inv), mat.getCol(inv));
-                    s.SaveFile(matriks);
+                    String[] solusi = mat.SPLInvers(matriks, mat.getRow(matriks), mat.getCol(matriks));
+                    for (int l = 0; l < solusi.length; l++){
+                        System.out.println(solusi[l]);
+                    }
+                    s.SaveFileSPL(solusi);
                     state = false;
                 }else if (j == 4){
                     // masuk metode kaidah cramer
                     matriks = insertMat();
-                    mat.SarrusCrammer(matriks, mat.getRow(matriks), mat.getCol(matriks));
-                    s.SaveFile(matriks);
+                    String[] solusi = mat.SarrusCrammer(matriks, mat.getRow(matriks), mat.getCol(matriks));
+                    s.SaveFileSPL(solusi);
                     state = false;
                 }else{
                     System.out.println("Input tidak valid! Silakan ulangi input");
@@ -105,14 +109,16 @@ public class menu{
                 if (j == 1){
                     // masuk metode determinan kofaktor
                     matriks = insertMat();
-                    System.out.println("Determinan matriks yang diinput: " + mat.DeterminanKof(matriks, mat.getRow(matriks), mat.getCol(matriks)));
-                    s.SaveFile(matriks);
+                    String det = mat.DeterminanKof(matriks, mat.getRow(matriks), mat.getCol(matriks))+"";
+                    System.out.println("Determinan matriks yang diinput: " + det);
+                    s.SaveFileString(det);
                     state = false;
                 }else if (j == 2){
                     //masuk metode determinan OBE
                     matriks = insertMat();
-                    System.out.println("Determinan matriks yang diinput: " + mat.Determinan(matriks, mat.getRow(matriks), mat.getCol(matriks)));
-                    s.SaveFile(matriks);
+                    String det = mat.Determinan(matriks, mat.getRow(matriks), mat.getCol(matriks))+"";
+                    System.out.println("Determinan matriks yang diinput: " + det);
+                    s.SaveFileString(det);
                     state = false;
                 }else{
                     System.out.println("Input tidak valid! Silakan ulangi input");
@@ -134,9 +140,10 @@ public class menu{
                     if(mat.DeterminanKof(matriks, mat.getRow(matriks), mat.getCol(matriks))!=0){
                         double[][] inv = mat.InversAdj(matriks, mat.getRow(matriks), mat.getCol(matriks));
                         mat.printMatriks(inv, mat.getRow(inv), mat.getCol(inv));
-                        s.SaveFile(inv);
+                        s.SaveFileMatrix(inv);
                     }else{
                         System.out.println("Matriks ini tidak memiliki balikan");
+                        s.SaveFileString("Matriks ini tidak memiliki balikan");
                     }
                     state = false;
                 }else if (j == 2){
@@ -145,9 +152,10 @@ public class menu{
                     if(mat.DeterminanKof(matriks, mat.getRow(matriks), mat.getCol(matriks))!=0){
                         double[][] inv = mat.InversOBE(matriks, mat.getRow(matriks), mat.getCol(matriks));
                         mat.printMatriks(inv, mat.getRow(inv), mat.getCol(inv));
-                        s.SaveFile(inv);
+                        s.SaveFileMatrix(inv);
                     }else{
                         System.out.println("Matriks ini tidak memiliki balikan");
+                        s.SaveFileString("Matriks ini tidak memiliki balikan");
                     }
                     state = false;
                 }else{
