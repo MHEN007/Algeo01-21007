@@ -31,7 +31,14 @@ class Matriks{
         this.n = n;
         return n;
     }
-
+    
+    int inputRowPolynomial(){ // memasukkan jumlah koordinat untuk interpolasi polinom
+        Scanner in = new Scanner (System.in);
+        System.out.print("Masukkan jumlah koordinat: ");
+        m = in.nextInt();
+        this.m = m;
+        return m;
+    }
 
     double[][] makeMatrix(int m, int n){ // membuat matriks sembarang dan mengembalikannya
         double[][] matriks = new double[m][n];
