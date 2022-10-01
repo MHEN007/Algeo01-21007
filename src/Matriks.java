@@ -614,7 +614,7 @@ class Matriks{
                 l++;
             }
             // ganti dengan parameter utk hasil 2 .. n
-            String param = "abcdefghijklmnopqrstuvwyz";
+            String param = "pqrstuvwyzabcdefghijklmno";
             int getidxparam = 0;
             for (int i = 1; i<solusi.length; i++){
                 if (state[i] == 0){
@@ -631,7 +631,11 @@ class Matriks{
                 for (int i = 1; i < solusi.length; i++){
                     if(state[i]==0){
                         if (matrix[0][i] != 0){
-                            temp += "-("+matrix[0][i] + output[i] + ")";
+                            if (matrix[0][i] * -1 < 0){
+                                temp += " - "+ matrix[0][i] + output[i];
+                            }else{
+                                temp += " + "+ matrix[0][i]*-1 + output[i];
+                            }
                         }
                     }
                 }
