@@ -40,6 +40,7 @@ class Matriks{
         this.m = m;
         return m;
     }
+<<<<<<< HEAD
 
     double inputEstimatePolynomial(){ // memasukkan nilai estimasi untuk interpolasi polinom
         Scanner in = new Scanner (System.in);
@@ -48,6 +49,8 @@ class Matriks{
         this.m = a;
         return a;
     }
+=======
+>>>>>>> dcfd8eb9558936192a5b4894ca591de1468d4658
 
     double[][] makeMatrix(int m, int n){ // membuat matriks sembarang dan mengembalikannya
         double[][] matriks = new double[m][n];
@@ -355,6 +358,7 @@ class Matriks{
         }
 
         double[][] copyMatA = copyMatriks(matA, m, n-1);
+<<<<<<< HEAD
 
         if(DeterminanKof(copyMatA,m,n-1) == 0){
             String[] solusi = new String[1];
@@ -366,6 +370,19 @@ class Matriks{
 
             // hasil nya
 
+=======
+
+        if(DeterminanKof(copyMatA,m,n-1) == 0){
+            String[] solusi = new String[1];
+            solusi[0] = "SPL ini tidak ada solusinya";
+            return solusi;
+        }else{
+            // buat invers matA
+            double[][] invMatA = InversAdj(matA,getRow(matA),getCol(matA));
+
+            // hasil nya
+
+>>>>>>> dcfd8eb9558936192a5b4894ca591de1468d4658
             double[][] x = perkalian(invMatA, matB);
 
             String[] solusi = new String[getRow(x)];
