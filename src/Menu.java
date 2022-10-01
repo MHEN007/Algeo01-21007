@@ -15,7 +15,7 @@ public class Menu{
         // Start
         boolean state = true;
         while (state){
-            System.out.println("=============");
+            System.out.println("===========================");
             System.out.println("MENU");
             System.out.println("1. Sistem Persamaan Linear");
             System.out.println("2. Determinan");
@@ -65,7 +65,7 @@ public class Menu{
                 j = in.nextInt();
                 if (j == 1){
                     // masuk metode elminasi gauss
-                    matriks = insertMat();
+                    matriks = insertMatSPL();
                     mat.Gauss(matriks, mat.getRow(matriks), mat.getCol(matriks));
                     //mat.printMatriks(matriks, mat.getRow(matriks), mat.getCol(matriks));
                     String[] solusi = mat.getSolution(matriks);
@@ -73,7 +73,7 @@ public class Menu{
                     state = false;
                 }else if (j == 2){
                     //masuk metode eliminasi  gauss -jordan
-                    matriks = insertMat();
+                    matriks = insertMatSPL();
                     mat.GaussJordan(matriks, mat.getRow(matriks), mat.getCol(matriks));
                     //mat.printMatriks(matriks, mat.getRow(matriks), mat.getCol(matriks));
                     String[] solusi = mat.getSolution(matriks);
@@ -81,7 +81,7 @@ public class Menu{
                     state = false;
                 }else if (j == 3){
                     // masuk metode matriks balikan
-                    matriks = insertMat();
+                    matriks = insertMatSPL();
                     String[] solusi = mat.SPLInvers(matriks, mat.getRow(matriks), mat.getCol(matriks));
                     for (int l = 0; l < solusi.length; l++){
                         System.out.println(solusi[l]);
@@ -90,7 +90,7 @@ public class Menu{
                     state = false;
                 }else if (j == 4){
                     // masuk metode kaidah cramer
-                    matriks = insertMat();
+                    matriks = insertMatSPL();
                     String[] solusi = mat.SarrusCrammer(matriks, mat.getRow(matriks), mat.getCol(matriks));
                     s.SaveFileSPL(solusi);
                     state = false;
@@ -177,10 +177,46 @@ public class Menu{
         int a = in.nextInt();
         switch (a){
             case 1:
+                System.out.println("Masukkan ukuran matriks (n): ");
+                int n = in.nextInt();
+                matriks = mat.makeMatrix(n,n);
+                mat.inputMatriks(matriks,n,n);
+                break;
+            case 2:
+                System.out.print("Masukkan nama file: ");
+                fname = in.next();
+                matriks = r.readfile(fname);
+                break;
+        }
+        return matriks;
+    }
+
+    public static double[][] insertMatSPL(){
+        Scanner in = new Scanner(System.in);
+        String fname;
+        System.out.println("==========================");
+        System.out.println("Pilih Metode Input Matriks");
+        System.out.println("1. Input melalui Keyboard");
+        System.out.println("2. Input melalui File");
+        int a = in.nextInt();
+        switch (a){
+            case 1:
                 int m = mat.inputRow();
                 int n = mat.inputCol();
+                double[][] A = mat.makeMatrix(m,n-1);
+                double[][] B = mat.makeMatrix(m,1);
+                System.out.println("Masukkan matriks A");
+                mat.inputMatriks(A,m,n-1);
+                System.out.println("Masukkan matriks B");
+                mat.inputMatriks(B,m,1);
+                // gabung A dan B
                 matriks = mat.makeMatrix(m,n);
-                mat.inputMatriks(matriks,m,n);
+                for (int i = 0; i < m; i++){
+                    for (int j = 0; j < n-1; j++){
+                        matriks[i][j] = A[i][j];
+                    }
+                    matriks[i][n-1] = B[i][0];
+                }
                 break;
             case 2:
                 System.out.print("Masukkan nama file: ");
