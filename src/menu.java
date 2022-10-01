@@ -5,6 +5,7 @@ public class Menu{
     private static Matriks mat = new Matriks();
     private static ReadFile r = new ReadFile();
     private static Save s = new Save();
+    private static Polynomial p = new Polynomial();
     public static double[][] matriks;
 
     Menu(){}
@@ -36,6 +37,7 @@ public class Menu{
                 subMenu(3);
             }else if (i == 4){
                 //masuk interpolasi polinom
+                s.SaveFileString(p.polynomial());
             }else if (i == 5){
                 //masuk interpolasi bicubic
             }else if (i == 6){

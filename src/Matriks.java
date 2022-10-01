@@ -44,8 +44,7 @@ class Matriks{
     double inputEstimatePolynomial(){ // memasukkan nilai estimasi untuk interpolasi polinom
         Scanner in = new Scanner (System.in);
         System.out.print("Masukkan nilai estimasi: ");
-        a = in.nextDouble();
-        this.m = a;
+        Double a = in.nextDouble();
         return a;
     }
 
@@ -355,7 +354,6 @@ class Matriks{
         }
 
         double[][] copyMatA = copyMatriks(matA, m, n-1);
-<<<<<<< HEAD
 
         if(DeterminanKof(copyMatA,m,n-1) == 0){
             String[] solusi = new String[1];
@@ -367,19 +365,6 @@ class Matriks{
 
             // hasil nya
 
-=======
-
-        if(DeterminanKof(copyMatA,m,n-1) == 0){
-            String[] solusi = new String[1];
-            solusi[0] = "SPL ini tidak ada solusinya";
-            return solusi;
-        }else{
-            // buat invers matA
-            double[][] invMatA = InversAdj(matA,getRow(matA),getCol(matA));
-
-            // hasil nya
-
->>>>>>> dcfd8eb9558936192a5b4894ca591de1468d4658
             double[][] x = perkalian(invMatA, matB);
 
             String[] solusi = new String[getRow(x)];
