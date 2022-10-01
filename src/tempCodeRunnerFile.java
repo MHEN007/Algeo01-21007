@@ -1,1 +1,2 @@
-matriks.printMatriks(matrix,m,n);
+
+        // Contoh Input: 

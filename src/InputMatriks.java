@@ -12,6 +12,5 @@ class InputMatriks{
         int n = matriks.inputCol();
         double[][] matrix = matriks.makeMatrix(m,n);
         matriks.inputMatriks(matrix,m,n);
-        matriks.printMatriks(matrix,m,n);
     }
 }

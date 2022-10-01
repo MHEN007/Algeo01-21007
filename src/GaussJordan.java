@@ -25,24 +25,13 @@ class GaussJordan{
                 countZero++;
             }
         }
-        if (countZero == n){
+        if (countZero == n || matriks.getRow(matrix) < (matriks.getCol(matrix)-1)){
             System.out.println("SPL ini memiliki banyak solusi");
         }else if (countZero == n-1){
             System.out.println("SPL ini tidak memiliki solusi");
         }else{ // ada solusi
-            double[] solusi = new double[m]; // jumlah variabel solusi adalah sejumlah barisnya
-        
-            // backward subs dimulai dari belakang
-            for (int i = m-1; i >= 0; i--){
-                double sum = 0.0;
-                for (int j = 0; j < n-1; j++){
-                    sum += matrix[i][j] * solusi[j];
-                }
-                solusi[i] = (matrix[i][n-1] - sum) / matrix[i][i];
-            }
-
-            for (int i = 0; i < m; i++){
-                System.out.println("x"+(i+1)+" = "+solusi[i]);
+            for (int i = 0; i < n-1; i++){
+                System.out.println("x"+(i+1)+" = "+ matrix[i][n-1]);
             }
         }
     }
