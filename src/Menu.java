@@ -200,6 +200,7 @@ public class Menu{
         System.out.println("Pilih Metode Input Matriks");
         System.out.println("1. Input melalui Keyboard");
         System.out.println("2. Input melalui File");
+        System.out.println("3. Menggunakan Matriks Hilbert n");
         int a = in.nextInt();
         switch (a){
             case 1:
@@ -224,6 +225,11 @@ public class Menu{
                 System.out.print("Masukkan nama file: ");
                 fname = in.next();
                 matriks = r.readfile(fname);
+                break;
+            case 3:
+                System.out.print("Masukkan n untuk Matriks Hilbert: ");
+                int nhib = in.nextInt();
+                matriks = mat.matriksHilbert(nhib);
                 break;
         }
         return matriks;

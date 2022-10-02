@@ -1,4 +1,5 @@
 import java.util. *;
+import java.io. *;
 
 public class Polynomial {
     Polynomial(){}
@@ -8,6 +9,7 @@ public class Polynomial {
     ReadFile r = new ReadFile();
     int m;
     double[][] matrix;
+    double a;
 
     String polynomial(){
         System.out.println("==========================");
@@ -22,12 +24,64 @@ public class Polynomial {
                 this.m = matriks.inputRowPolynomial();
                 this.matrix = matriks.makeMatrix(m,2);
                 matriks.inputMatriks(matrix,m,2);
+                this.a = matriks.inputEstimatePolynomial();
                 break;
             case 2:
-                System.out.print("Masukkan nama file: ");
-                String fname = in.next();
-                this.matrix = r.readfile(fname);
-                this.m = matrix.length;
+                try{
+                    int countRow = 0;
+                    int countCol = 1;
+                    String line = "";
+                    System.out.print("Masukkan nama file: ");
+                    Scanner scan = new Scanner(System.in);
+                    String filename = scan.next();
+
+                    File file = new File("../test/"+filename);
+                    Scanner sc = new Scanner(file);        
+
+                    ArrayList<ArrayList<Double>> tempmatrix = new ArrayList<ArrayList<Double>>();
+                    ArrayList<Double> tempxk = new ArrayList<Double>();
+
+                    int i = 0;
+                    while(sc.hasNextLine()){
+                        countRow++;
+                        line = sc.nextLine();
+                        Scanner sc1 = new Scanner(line);
+                        tempmatrix.add(new ArrayList<Double>());
+                        while(sc1.hasNextDouble()){
+                            tempmatrix.get(i).add(sc1.nextDouble());
+                        }
+                        i++;
+                    }
+
+                    // ambil xk di baris paling bawah
+                    for (int j = 0; j < tempmatrix.get(tempmatrix.size()-1).size(); j++){
+                        tempxk.add(tempmatrix.get(tempmatrix.size()-1).get(j));
+                    }
+                    tempmatrix.remove(tempmatrix.size()-1);
+
+                    for (i = 0; i < tempxk.size(); i++){
+                        System.out.print(tempxk.get(i) + " ");
+                    }
+
+                    // masukkan ke matrix
+                    this.matrix = new double[tempmatrix.size()][tempmatrix.get(0).size()];
+                    for (i = 0; i < tempmatrix.size(); i++){
+                        for (int j = 0; j < tempmatrix.get(0).size();j++){
+                            this.matrix[i][j] = tempmatrix.get(i).get(j);
+                        }
+                    }
+
+                    // masukkan ke xk
+                    this.a = tempxk.get(0);
+
+                    this.m = tempmatrix.size();
+
+                    //m.printMatriks(matriks, m.getRow(matriks), m.getCol(matriks));
+
+                } catch (FileNotFoundException e){
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
                 break;
         }
 
@@ -93,7 +147,6 @@ public class Polynomial {
         // }
 
         System.out.print("\n");
-        double a = matriks.inputEstimatePolynomial();
         double sumNilaiEstimasi = 0.0;
 
         for (i = 0 ; i < o-1; i++){

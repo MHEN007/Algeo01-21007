@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.io. *;
 
 class Regresi{
     Regresi(){}
@@ -36,11 +38,65 @@ class Regresi{
                 matriks.inputMatriks(matrix,m,o);
                 break;
             case 2:
-                // special case menyusul
-                /*
-                System.out.print("Masukkan nama file: ");
-                String fname = scan.next();
-                */
+                try{
+                    int countRow = 0;
+                    int countCol = 1;
+                    String line = "";
+                    System.out.print("Masukkan nama file: ");
+                    String filename = scan.next();
+
+                    File file = new File("../test/"+filename);
+                    Scanner sc = new Scanner(file);        
+
+                    ArrayList<ArrayList<Double>> tempmatrix = new ArrayList<ArrayList<Double>>();
+                    ArrayList<Double> tempxk = new ArrayList<Double>();
+
+                    i = 0;
+                    while(sc.hasNextLine()){
+                        countRow++;
+                        line = sc.nextLine();
+                        Scanner sc1 = new Scanner(line);
+                        tempmatrix.add(new ArrayList<Double>());
+                        while(sc1.hasNextDouble()){
+                            tempmatrix.get(i).add(sc1.nextDouble());
+                        }
+                        i++;
+                    }
+
+                    // ambil xk di baris paling bawah
+                    for (j = 0; j < tempmatrix.get(tempmatrix.size()-1).size(); j++){
+                        tempxk.add(tempmatrix.get(tempmatrix.size()-1).get(j));
+                    }
+                    tempmatrix.remove(tempmatrix.size()-1);
+
+                    for (i = 0; i < tempxk.size(); i++){
+                        System.out.print(tempxk.get(i) + " ");
+                    }
+
+                    // masukkan ke matrix
+                    this.matrix = new double[tempmatrix.size()][tempmatrix.get(0).size()];
+                    for (i = 0; i < tempmatrix.size(); i++){
+                        for (j = 0; j < tempmatrix.get(0).size();j++){
+                            this.matrix[i][j] = tempmatrix.get(i).get(j);
+                        }
+                    }
+
+                    // masukkan ke xk
+                    this.xk = new double[tempxk.size()][1];
+                    for (i  = 0; i < tempxk.size(); i++){
+                        this.xk[i][0] = tempxk.get(i);
+                    }
+
+                    this.n = tempmatrix.get(0).size()-1;
+                    this.o = n+1;
+                    this.m = tempmatrix.size();
+
+                    //m.printMatriks(matriks, m.getRow(matriks), m.getCol(matriks));
+
+                } catch (FileNotFoundException e){
+                    System.out.println("An error occurred.");
+                    e.printStackTrace();
+                }
                 break;
         }
         
