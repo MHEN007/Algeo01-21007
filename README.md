@@ -14,7 +14,7 @@ Program ini dibuat menggunakan bahasa Java.
 
 ## Penjelasan Direktori
 Direktori `src` berisi source code dari program ini. Direktori `doc` berisi dokumen laporan. Direktori `test` berisi kumpulan
-test file yang digunakan untuk menguji program. Direktori `bin` berisi kelas-kelas dari program Java yang sudah dibuat.
+test file dalam bentuk .txt yang digunakan untuk menguji program. Direktori `bin` berisi kelas-kelas dari program Java yang sudah dibuat.
 
 ## Cara Menjalankan
 Program dijalankan pada `Main.java`. Langkah-langkahnya sebagai berikut
@@ -22,3 +22,23 @@ Program dijalankan pada `Main.java`. Langkah-langkahnya sebagai berikut
 2. Ketikkan `javac -d ../bin Main.java`
 3. Ketikkan `java -cp ../bin Main`
 4. Program sudah dapat dijalankan
+
+Saat memasuki program ada beberapa menu yang dapat dipilih
+### Sistem Persamaan Linear (SPL)
+Berfungsi untuk menyelesaikan sebuah SPL dengan 4 metode yang berbeda seperti Gauss, Gauss-Jordan, Invers SPL, atau Kaidah Sarrus-Crammer
+
+### Determinan
+Berfungsi untuk mengeluarkan hasil determinan masukan matriks (jika ada) menggunakan metode Kofaktor atau Reduksi Baris
+
+### Matriks Balikan
+Berfungsi untuk membuat invers dari matriks balikan dengan metode reduksi baris atau adjoin kofaktor
+
+### Interpolasi Polinom
+Membuat persamaan garis yang melalui titik-titik input dan mengestimasi nilai x asal
+
+### Interpolasi Bicubic
+Metode pembesaran data 2D
+
+### Regresi Linear Berganda
+Berfungsi untuk memprediksi nilai x asal berdasarkan data-data yang sudah diinput sebelumnya
+
