@@ -59,9 +59,9 @@ public class Polynomial {
                     }
                     tempmatrix.remove(tempmatrix.size()-1);
 
-                    for (i = 0; i < tempxk.size(); i++){
-                        System.out.print(tempxk.get(i) + " ");
-                    }
+                    // for (i = 0; i < tempxk.size(); i++){
+                    //     System.out.print(tempxk.get(i) + " ");
+                    // }
 
                     // masukkan ke matrix
                     this.matrix = new double[tempmatrix.size()][tempmatrix.get(0).size()];
