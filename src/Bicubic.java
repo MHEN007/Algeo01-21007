@@ -2,17 +2,15 @@ import java.util. *;
 import java.io. *;
 class Bicubic{
     Bicubic(){}
+    
+    int i,j,k,l;
+    double x,y;
+    double[][] input;
 
     private static Matriks m = new Matriks();
     private static Scanner scan = new Scanner(System.in);
 
     String bicubic(){
-        int i,j,k,l;
-        double x,y;
-        double[][] input = new double[16][16];
-        // x = 0.5; y = 0.5;
-        x = 0; y = 0;
-
         System.out.println("==========================");
         System.out.println("Pilih Metode Input Matriks");
         System.out.println("1. Input melalui Keyboard");
@@ -22,15 +20,16 @@ class Bicubic{
         switch (pil){
             case 1:
                 System.out.println("Masukkan nilai f(x,y) dalam bentuk matriks 4x4");
+                this.input = new double[16][1];
                 for (i = 0; i < 16;i++){
-                    input[i][0] = scan.nextDouble();
+                    this.input[i][0] = scan.nextDouble();
                 }
                 // masukkan nilai x dan y yang akan dicari
                 System.out.print("Input nilai x: ");
-                x = scan.nextDouble();
+                this.x = scan.nextDouble();
 
                 System.out.print("Input nilai y: ");
-                y= scan.nextDouble();
+                this.y= scan.nextDouble();
                 break;
             case 2:
                 try{
@@ -69,17 +68,18 @@ class Bicubic{
 
                     // masukkan ke matrix
                     //this.matrix = new double[tempmatrix.size()][tempmatrix.get(0).size()];
+                    this.input = new double[tempmatrix.size()*tempmatrix.size()][1];
                     int idxinput = 0;
                     for (i = 0; i < tempmatrix.size(); i++){
                         for (j = 0; j < tempmatrix.get(0).size();j++){
-                            input[idxinput][0] = tempmatrix.get(i).get(j);
+                            this.input[idxinput][0] = tempmatrix.get(i).get(j);
                             idxinput++;
                         }
                     }
 
                     // masukkan ke xk
-                    x = tempxk.get(0);
-                    y = tempxk.get(1);
+                    this.x = tempxk.get(0);
+                    this.y = tempxk.get(1);
 
                 }catch (FileNotFoundException e){
                     System.out.println("An error occurred.");
@@ -89,7 +89,6 @@ class Bicubic{
         }
 
 
-        //double[][] input = {{153},{59},{210},{96},{125},{161},{72},{81},{98},{101},{42},{12},{21},{51},{0},{16}};
         ArrayList<ArrayList<Double>> Xtemp = new ArrayList<ArrayList<Double>>();
 
         //ALGORITMA

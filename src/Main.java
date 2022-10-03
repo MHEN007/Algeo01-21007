@@ -5,6 +5,6 @@ class Main{
         System.out.println("     APLIKASI KALKULATOR MATRIKS      ");
         prog.menu();
         System.out.println("=================================");
-        System.out.println(" Copyright 2022 - ALGEO A \n13521007 - 13521008 - 13521027");
+        System.out.println(" Copyright 2022 - AlgeoA \n13521007 - 13521008 - 13521027");
     }
 }
