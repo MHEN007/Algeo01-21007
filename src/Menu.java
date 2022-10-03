@@ -7,6 +7,7 @@ public class Menu{
     private static Save s = new Save();
     private static Polynomial p = new Polynomial();
     private static Regresi reg = new Regresi();
+    private static Bicubic b = new Bicubic();
     public static double[][] matriks;
 
     Menu(){}
@@ -41,6 +42,7 @@ public class Menu{
                 s.SaveFileString(p.polynomial());
             }else if (i == 5){
                 //masuk interpolasi bicubic
+                s.SaveFileString(b.bicubic());
             }else if (i == 6){
                 //masuk regresi linear berganda
                 s.SaveFileString(reg.regresi());

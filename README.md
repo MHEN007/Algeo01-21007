@@ -37,7 +37,7 @@ Berfungsi untuk membuat invers dari matriks balikan dengan metode reduksi baris 
 Membuat persamaan garis yang melalui titik-titik input dan mengestimasi nilai x asal
 
 ### Interpolasi Bicubic
-Metode pembesaran data 2D
+Metode pembesaran data 2D. Melakukan interpolasi bicubic matriks berukuran 4x4
 
 ### Regresi Linear Berganda
 Berfungsi untuk memprediksi nilai x asal berdasarkan data-data yang sudah diinput sebelumnya
