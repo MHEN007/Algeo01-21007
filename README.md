@@ -42,3 +42,10 @@ Metode pembesaran data 2D. Melakukan interpolasi bicubic matriks berukuran 4x4
 ### Regresi Linear Berganda
 Berfungsi untuk memprediksi nilai x asal berdasarkan data-data yang sudah diinput sebelumnya
 
+Pemilihan Menu dilakukan melalui keyboard sesuai dengan keluaran program
+
+## Hal Input Matriks
+Program ini dapat menerima matriks melalui dua cara. Pertama melalui keyboard yaitu dengan menginput ukuran baris dan kolom dari matriks (atau untuk matriks persegi langsung ukuran matriks perseginya) kemudian menginput elemennya sesuai keluaran program. Kedua melalui file .txt. File .txt berisi matriks dan atau nilai yang akan diuji (untuk kasus interpolasi polinom dan bikubik serta regresi linear). File .txt ini dapat ditemukan di folder `test`. Untuk memasukkan matriks dari file .txt, cukup menuliskan nama filenya misal `regresi.txt` sesuai keluaran dari program.
+
+## Hal Penyimpanan Hasil
+Hasil dari operasi dapat disimpan di akhir operasi matriks. Pengguna diberi pilihan apabila ingin menyimpan atau tidak. Jika ingin menyimpan diberi masukan `1` dan jika tidak diberi masukan `0`. File penyimpanan berupa `.txt` dan disimpan pada folder `test`. Nama file ditentukan oleh pengguna dengan contoh masukan `hasilmatriks.txt`. Nama file yang dimasukkan harus mengandung ekstensi file `.txt`.
